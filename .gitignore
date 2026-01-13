@@ -29,6 +29,13 @@ test_project/
 **/test_project/
 test-requirements.txt
 
+# Generated test directories from OpenAPI Generator
+**/Test/
+**/spec/
+**/*Test/
+**/*Tests/
+spec/
+
 # Specific test files in root
 /test-account-endpoints.js
 /test-published-npm.js
@@ -117,6 +124,9 @@ git_push.sh
 /sdks/ruby/vendor/
 /sdks/ruby/test_*.rb
 /sdks/ruby/.bundle/
+/sdks/ruby/spec/
+/sdks/ruby/.rspec
+/sdks/ruby/*.gemspec
 
 ## Rust SDK
 /sdks/rust/.env
