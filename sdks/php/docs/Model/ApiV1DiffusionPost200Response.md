@@ -1,0 +1,15 @@
+# # ApiV1DiffusionPost200Response
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**job_id** | **string** | Unique identifier for the created job | [optional]
+**model** | **string** | AI model used (e.g., midjourney) | [optional]
+**task_type** | **string** | Type of task (e.g., diffusion) | [optional]
+**status** | **string** | Initial status (typically &#39;pending&#39;) | [optional]
+**config** | [**\Legnext\Model\ApiV1DiffusionPost200ResponseConfig**](ApiV1DiffusionPost200ResponseConfig.md) |  | [optional]
+**output** | [**\Legnext\Model\ApiV1DiffusionPost200ResponseOutput**](ApiV1DiffusionPost200ResponseOutput.md) |  | [optional]
+**meta** | [**\Legnext\Model\ApiV1DiffusionPost200ResponseMeta**](ApiV1DiffusionPost200ResponseMeta.md) |  | [optional]
+
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
