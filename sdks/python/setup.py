@@ -20,7 +20,7 @@ from setuptools import setup, find_packages  # noqa: H301
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-NAME = "openapi-client"
+NAME = "legnext-python-sdk"
 VERSION = "1.0.0"
 PYTHON_REQUIRES = ">= 3.9"
 REQUIRES = [
@@ -33,11 +33,11 @@ REQUIRES = [
 setup(
     name=NAME,
     version=VERSION,
-    description="Midjourney api-unofficial by Legnext.ai",
-    author="OpenAPI Generator community",
-    author_email="team@openapitools.org",
-    url="",
-    keywords=["OpenAPI", "OpenAPI-Generator", "Midjourney api-unofficial by Legnext.ai"],
+    description="Official Python client for the Legnext.ai Midjourney API. Generate images, videos, and more with AI.",
+    author="Legnext AI",
+    author_email="support@legnext.ai",
+    url="https://github.com/legnext-ai/sdks",
+    keywords=["legnext", "midjourney", "ai", "image-generation", "api"],
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
