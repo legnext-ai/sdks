@@ -1,0 +1,23 @@
+# empty npmignore to ensure all required files (e.g., in the dist folder) are published by npm
+
+# Exclude test files
+test-*.js
+create-text-to-image.js
+get-job-status.js
+get-pan-results.js
+
+# Exclude publish subfolder (duplicate)
+publish/
+
+# Exclude TypeScript source (we include compiled dist)
+*.ts
+!*.d.ts
+
+# Exclude git files
+.git
+.gitignore
+git_push.sh
+
+# Exclude config files
+tsconfig*.json
+openapitools.json

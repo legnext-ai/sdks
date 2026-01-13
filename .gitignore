@@ -1,0 +1,141 @@
+# ===================================
+# Sensitive Files - NEVER COMMIT
+# ===================================
+.env
+*.env
+.env.*
+*.key
+*.pem
+*secret*
+*credential*
+*.p12
+*.pfx
+
+# ===================================
+# Test Files with Hardcoded Keys
+# ===================================
+test-*.js
+test_*.go
+test-*.py
+test-*.php
+test-*.rb
+test-*.cs
+*-test.js
+*-test.go
+test/
+test_*/
+**/test_*/
+test_project/
+**/test_project/
+test-requirements.txt
+
+# Specific test files in root
+/test-account-endpoints.js
+/test-published-npm.js
+/test-published-sdk.js
+
+# ===================================
+# Temporary/Build Artifacts
+# ===================================
+node_modules/
+vendor/
+target/
+bin/
+obj/
+dist/
+build/
+out/
+*.log
+*.tmp
+temp-*/
+.cache/
+
+# ===================================
+# IDE/Editor Files
+# ===================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*:Zone.Identifier
+
+# ===================================
+# OpenAPI Generator Files (keep only generated SDKs)
+# ===================================
+/openapi/.env
+/openapi/*.yaml.bak
+/openapi/temp/
+
+# ===================================
+# Old/Duplicate SDK Folders
+# ===================================
+/Js-sdk-for-legnext/
+**/publish/
+publish/
+
+# ===================================
+# Git Configuration
+# ===================================
+.git/
+git_push.sh
+
+# ===================================
+# SDK-Specific Exclusions
+# ===================================
+
+## JavaScript SDK
+/sdks/javascript/node_modules/
+/sdks/javascript/.env
+/sdks/javascript/test-*.js
+/sdks/javascript/create-text-to-image.js
+/sdks/javascript/get-job-status.js
+/sdks/javascript/get-pan-results.js
+/sdks/javascript/publish/
+
+## Go SDK
+/sdks/go/.env
+/sdks/go/test_*.go
+/sdks/go/publish/
+
+## PHP SDK
+/sdks/php/vendor/
+/sdks/php/.env
+/sdks/php/test*.php
+
+## Python SDK
+/sdks/python/.env
+/sdks/python/__pycache__/
+/sdks/python/*.pyc
+/sdks/python/test_*.py
+/sdks/python/venv/
+/sdks/python/.pytest_cache/
+
+## Ruby SDK
+/sdks/ruby/.env
+/sdks/ruby/vendor/
+/sdks/ruby/test_*.rb
+/sdks/ruby/.bundle/
+
+## Rust SDK
+/sdks/rust/.env
+/sdks/rust/target/
+/sdks/rust/Cargo.lock
+/sdks/rust/test_*.rs
+
+## Java SDK
+/sdks/java/.env
+/sdks/java/target/
+/sdks/java/*.class
+/sdks/java/test*.java
+/sdks/java/Test*.java
+
+## C# SDK
+/sdks/csharp/.env
+/sdks/csharp/bin/
+/sdks/csharp/obj/
+/sdks/csharp/test*.cs
+/sdks/csharp/Test*.cs
+/sdks/csharp/Test*.csproj
+/sdks/csharp/*.user

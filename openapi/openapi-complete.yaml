@@ -1,0 +1,1362 @@
+openapi: 3.0.3
+info:
+  title: Legnext AI API
+  description: |
+    Comprehensive API for professional image and video generation and manipulation using Midjourney AI models.
+    
+    ## Authentication
+    All API requests require an API key passed in the `x-api-key` header.
+    
+    ## Base URL
+    `https://api.legnext.ai/api`
+    
+    ## Rate Limiting
+    API requests are rate limited based on your subscription plan.
+    
+    ## Webhook Support
+    Most endpoints support optional callbacks. When a callback URL is provided, the API will POST the completed job result to that URL.
+  version: 1.0.0
+  contact:
+    name: Legnext Support
+    email: support@legnext.ai
+    url: https://legnext.ai
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: https://api.legnext.ai/api
+    description: Production server
+
+tags:
+  - name: Image Generation
+    description: Text to image, image editing, and manipulation endpoints
+  - name: Video Generation
+    description: Video creation and enhancement endpoints
+  - name: Task Management
+    description: Job status tracking and retrieval
+  - name: Account
+    description: Account information and active tasks management
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key for authentication
+
+  schemas:
+    # Common Schemas
+    JobStatus:
+      type: string
+      enum:
+        - pending
+        - staged
+        - processing
+        - failed
+        - completed
+      description: Current status of the job
+
+    TaskType:
+      type: string
+      enum:
+        - diffusion
+        - variation
+        - upscale
+        - reroll
+        - blend
+        - describe
+        - shorten
+        - pan
+        - outpaint
+        - inpaint
+        - remix
+        - edit
+        - upload-paint
+        - retexture
+        - remove-background
+        - enhance
+        - video-diffusion
+        - extend-video
+        - video-upscale
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        raw_message:
+          type: string
+          description: Raw error message from service
+        detail:
+          type: object
+          nullable: true
+          description: Additional error details
+
+    Meta:
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          description: When the job was created
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When processing started
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When processing completed
+        usage:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: [point, credit]
+            frozen:
+              type: integer
+              description: Frozen quota points
+            consume:
+              type: integer
+              description: Consumed quota points
+
+    WebhookConfig:
+      type: object
+      properties:
+        endpoint:
+          type: string
+          format: uri
+          description: Webhook URL for callbacks
+        secret:
+          type: string
+          description: Webhook secret for validation
+
+    Config:
+      type: object
+      properties:
+        service_mode:
+          type: string
+          enum: [public, private]
+        webhook_config:
+          $ref: '#/components/schemas/WebhookConfig'
+
+    ImageOutput:
+      type: object
+      properties:
+        image_url:
+          type: string
+          format: uri
+          nullable: true
+          description: Single image URL (for single image operations)
+        image_urls:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Array of image URLs (typically 4 images for generation)
+        seed:
+          type: string
+          description: Seed used for generation (for reproducibility)
+
+    TaskResponse:
+      type: object
+      required:
+        - job_id
+        - model
+        - task_type
+        - status
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: Unique job identifier
+        model:
+          type: string
+          enum: [midjourney]
+          description: Model used for processing
+        task_type:
+          $ref: '#/components/schemas/TaskType'
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        config:
+          $ref: '#/components/schemas/Config'
+        input:
+          type: object
+          nullable: true
+          description: Input parameters (structure varies by task type)
+        output:
+          $ref: '#/components/schemas/ImageOutput'
+          nullable: true
+          description: Output results (null until completed)
+        meta:
+          $ref: '#/components/schemas/Meta'
+        detail:
+          type: object
+          nullable: true
+          description: Additional task details
+        logs:
+          type: array
+          items:
+            type: string
+          description: Processing logs
+        error:
+          $ref: '#/components/schemas/Error'
+
+    # Image Generation Schemas
+    DiffusionRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Text prompt for image generation (1-8192 characters)
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    VariationRequest:
+      type: object
+      required:
+        - jobId
+        - imageNo
+        - type
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the original image generation task
+        imageNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 0
+          description: Image number to vary (0, 1, 2, or 3)
+        type:
+          type: integer
+          enum: [0, 1]
+          description: Variation intensity (0=Subtle, 1=Strong)
+        remixPrompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          nullable: true
+          description: Optional additional prompt for guided variation
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    UpscaleRequest:
+      type: object
+      required:
+        - jobId
+        - imageNo
+        - type
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the original image generation task
+        imageNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 0
+          description: Image number to upscale (0, 1, 2, or 3)
+        type:
+          type: integer
+          enum: [0, 1]
+          description: Upscaling type (0=Subtle, 1=Creative)
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    RerollRequest:
+      type: object
+      required:
+        - jobId
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the task to reroll
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    BlendRequest:
+      type: object
+      required:
+        - imgUrls
+        - aspect_ratio
+      properties:
+        imgUrls:
+          type: array
+          items:
+            type: string
+            format: uri
+          minItems: 2
+          maxItems: 5
+          description: 2-5 image URLs to blend
+        aspect_ratio:
+          type: string
+          enum: ["2:3", "1:1", "3:2"]
+          description: Aspect ratio for the blended image
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    DescribeRequest:
+      type: object
+      required:
+        - imgUrl
+      properties:
+        imgUrl:
+          type: string
+          format: uri
+          description: URL of image to describe
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    ShortenRequest:
+      type: object
+      required:
+        - prompt
+      properties:
+        prompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Prompt to shorten
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    PanRequest:
+      type: object
+      required:
+        - jobId
+        - imageNo
+        - direction
+        - scale
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the original image generation task
+        imageNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 0
+          description: Image number to extend (0, 1, 2, or 3)
+        direction:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 1
+          description: Extension direction (0=Down, 1=Right, 2=Up, 3=Left)
+        scale:
+          type: number
+          format: float
+          minimum: 1.1
+          maximum: 3.0
+          example: 1.5
+          description: Extension scale ratio (1.1-3.0)
+        remixPrompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Text prompt for the extended area
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    OutpaintRequest:
+      type: object
+      required:
+        - jobId
+        - imageNo
+        - scale
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the original image
+        imageNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 0
+          description: Image number to extend (0, 1, 2, or 3)
+        scale:
+          type: number
+          format: float
+          minimum: 1.1
+          maximum: 2.0
+          description: Extension scale ratio (1.1-2.0)
+        remixPrompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Text prompt for the extended areas
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    InpaintRequest:
+      type: object
+      required:
+        - jobId
+        - imageNo
+        - mask
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the original image generation task
+        imageNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 0
+          description: Image number to edit (0, 1, 2, or 3)
+        mask:
+          type: object
+          description: Regions to repaint (use either areas or url)
+          properties:
+            areas:
+              type: array
+              items:
+                type: object
+                properties:
+                  width:
+                    type: integer
+                    minimum: 500
+                    maximum: 4096
+                  height:
+                    type: integer
+                    minimum: 500
+                    maximum: 4096
+                  points:
+                    type: array
+                    items:
+                      type: integer
+            url:
+              type: string
+              format: uri
+              description: Black and white mask image URL
+        remixPrompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Text prompt for the repaint area
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    RemixRequest:
+      type: object
+      required:
+        - jobId
+        - imageNo
+        - remixPrompt
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the original image
+        imageNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 0
+          description: Image number to remix (0, 1, 2, or 3)
+        remixPrompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: New prompt for remix
+        mode:
+          type: integer
+          minimum: 0
+          maximum: 1
+          description: Remix intensity mode (0=Strong, 1=Subtle)
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    EditRequest:
+      type: object
+      required:
+        - jobId
+        - imageNo
+        - canvas
+        - imgPos
+        - remixPrompt
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the original image generation task
+        imageNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 0
+          description: Image number to edit (0, 1, 2, or 3)
+        canvas:
+          type: object
+          required:
+            - width
+            - height
+          properties:
+            width:
+              type: integer
+              description: Canvas width in pixels
+            height:
+              type: integer
+              description: Canvas height in pixels
+          description: Target canvas dimensions
+        imgPos:
+          type: object
+          required:
+            - width
+            - height
+            - x
+            - y
+          properties:
+            width:
+              type: integer
+              description: Image width in pixels
+            height:
+              type: integer
+              description: Image height in pixels
+            x:
+              type: integer
+              description: Horizontal offset from canvas top-left
+            y:
+              type: integer
+              description: Vertical offset from canvas top-left
+          description: Image position relative to canvas
+        remixPrompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Text prompt for the edit
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    UploadPaintRequest:
+      type: object
+      required:
+        - imgUrl
+        - canvas
+        - imgPos
+        - remixPrompt
+        - mask
+      properties:
+        imgUrl:
+          type: string
+          format: uri
+          maxLength: 1024
+          description: URL of the source image
+        canvas:
+          type: object
+          required:
+            - width
+            - height
+          properties:
+            width:
+              type: integer
+              description: Canvas width in pixels
+            height:
+              type: integer
+              description: Canvas height in pixels
+          description: Target canvas dimensions
+        imgPos:
+          type: object
+          required:
+            - width
+            - height
+            - x
+            - y
+          properties:
+            width:
+              type: integer
+              description: Image width in pixels
+            height:
+              type: integer
+              description: Image height in pixels
+            x:
+              type: integer
+              description: Horizontal offset from canvas top-left
+            y:
+              type: integer
+              description: Vertical offset from canvas top-left
+          description: Image position relative to canvas
+        mask:
+          type: object
+          description: Areas to edit on the original image
+          properties:
+            areas:
+              type: array
+              items:
+                type: object
+                properties:
+                  width:
+                    type: integer
+                    minimum: 500
+                    maximum: 4096
+                  height:
+                    type: integer
+                    minimum: 500
+                    maximum: 4096
+                  points:
+                    type: array
+                    items:
+                      type: integer
+            url:
+              type: string
+              format: uri
+              description: Black and white mask image URL
+        remixPrompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Text prompt for the editing operation
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    RetextureRequest:
+      type: object
+      required:
+        - imgUrl
+        - remixPrompt
+      properties:
+        imgUrl:
+          type: string
+          format: uri
+          maxLength: 1024
+          description: URL of the source image
+        remixPrompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Text description of desired texture/material transformation
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    RemoveBackgroundRequest:
+      type: object
+      required:
+        - imgUrl
+      properties:
+        imgUrl:
+          type: string
+          format: uri
+          maxLength: 1024
+          description: URL of the image to process
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    EnhanceRequest:
+      type: object
+      required:
+        - jobId
+        - imageNo
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the draft mode image to enhance
+        imageNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 0
+          description: Image number to enhance (0, 1, 2, or 3)
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    # Video Generation Schemas
+    VideoDiffusionRequest:
+      type: object
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the source image generation task (for existing image mode)
+        imageNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          description: Image number to animate (0/1/2/3) (for existing image mode)
+        prompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Video generation prompt text (required for prompt mode, optional for existing image mode)
+        videoType:
+          type: integer
+          minimum: 0
+          maximum: 1
+          description: Video quality type (0=480p, 1=720p)
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+      anyOf:
+        - required: [jobId, imageNo]
+        - required: [prompt]
+
+    ExtendVideoRequest:
+      type: object
+      required:
+        - jobId
+        - videoNo
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the original video task
+        videoNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          description: Video number to extend (0/1/2/3)
+        prompt:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          description: Text prompt to guide the extension
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    VideoUpscaleRequest:
+      type: object
+      required:
+        - jobId
+        - videoNo
+      properties:
+        jobId:
+          type: string
+          format: uuid
+          description: ID of the original video task
+        videoNo:
+          type: integer
+          minimum: 0
+          maximum: 3
+          description: Video number to upscale (0/1/2/3)
+        callback:
+          type: string
+          format: uri
+          description: Callback URL for task completion notifications
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+
+    # Account Schemas
+    AccountInfo:
+      type: object
+      properties:
+        account_id:
+          type: string
+          format: uuid
+          description: Unique account identifier
+        email:
+          type: string
+          format: email
+          description: Account email address
+        plan:
+          type: string
+          enum: [free, basic, pro, premium]
+          description: Current subscription plan
+        balance:
+          type: number
+          format: double
+          description: Current account balance/credits
+        used:
+          type: number
+          format: double
+          description: Total used credits
+        quota:
+          type: object
+          properties:
+            monthly_limit:
+              type: number
+              description: Monthly credit limit
+            remaining:
+              type: number
+              description: Remaining credits this month
+            reset_at:
+              type: string
+              format: date-time
+              description: When the monthly quota resets
+        status:
+          type: string
+          enum: [active, inactive, suspended, limited]
+          description: Account status
+        created_at:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: Last account update timestamp
+
+    ActiveTask:
+      type: object
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: Unique job identifier
+        task_type:
+          $ref: '#/components/schemas/TaskType'
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        created_at:
+          type: string
+          format: date-time
+          description: When the task was created
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Task progress percentage
+        estimated_time:
+          type: integer
+          nullable: true
+          description: Estimated remaining time in seconds
+
+    BalanceResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Response status code
+          example: 200
+        message:
+          type: string
+          description: Response message
+          example: success
+        data:
+          type: object
+          properties:
+            account_id:
+              type: integer
+              description: Account identifier
+              example: 1
+            balance_usd:
+              type: number
+              format: float
+              description: Current balance in USD
+              example: 72.048
+            available_credits:
+              type: integer
+              description: Available credits for API usage
+              example: 71000
+            available_points:
+              type: integer
+              description: Available points
+              example: 1048
+            alert_threshold:
+              type: integer
+              description: Low balance alert threshold in USD
+              example: 10
+            low_balance_alert:
+              type: boolean
+              description: Whether low balance alert is triggered
+              example: false
+            updated_at:
+              type: string
+              format: date-time
+              description: Last update timestamp
+              example: "2025-11-05T08:22:37.784663288Z"
+
+    ActiveTasksResponse:
+      type: object
+      properties:
+        account_id:
+          type: string
+          format: uuid
+          description: Account identifier
+        total_active:
+          type: integer
+          description: Total number of active tasks
+        concurrent_limit:
+          type: integer
+          description: Maximum concurrent tasks allowed
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActiveTask'
+          description: List of currently active tasks
+        updated_at:
+          type: string
+          format: date-time
+          description: When this response was generated
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  # Image Generation Endpoints
+  /v1/diffusion:
+    post:
+      tags:
+        - Image Generation
+      summary: Text to Image
+      description: Generate high-quality images from text descriptions using the Midjourney model
+      operationId: generateImage
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiffusionRequest'
+      responses:
+        '200':
+          description: Task created successfully
+
+  /v1/variation:
+    post:
+      tags:
+        - Image Generation
+      summary: Create Image Variation
+      description: Generate variations of existing images with controllable transformation intensity
+      operationId: createVariation
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariationRequest'
+      responses:
+        '200':
+          description: Variation task created successfully
+
+  /v1/upscale:
+    post:
+      tags:
+        - Image Generation
+      summary: Upscale Image
+      description: Enhance image resolution and quality using AI upscaling technology
+      operationId: upscaleImage
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpscaleRequest'
+      responses:
+        '200':
+          description: Upscale task created successfully
+
+  /v1/reroll:
+    post:
+      tags:
+        - Image Generation
+      summary: Reroll Task
+      description: Re-execute a task to generate new variations with the same parameters
+      operationId: rerollTask
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RerollRequest'
+      responses:
+        '200':
+          description: Reroll task created successfully
+
+  /v1/blend:
+    post:
+      tags:
+        - Image Generation
+      summary: Blend Images
+      description: Combine 2-5 images into a single unique creation with seamless blending
+      operationId: blendImages
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlendRequest'
+      responses:
+        '200':
+          description: Blend task created successfully
+
+  /v1/describe:
+    post:
+      tags:
+        - Image Generation
+      summary: Describe Image
+      description: Generate detailed text descriptions and prompts from existing images
+      operationId: describeImage
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DescribeRequest'
+      responses:
+        '200':
+          description: Description task created successfully
+
+  /v1/shorten:
+    post:
+      tags:
+        - Image Generation
+      summary: Shorten Prompt
+      description: Analyze and simplify prompts to their most essential elements
+      operationId: shortenPrompt
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShortenRequest'
+      responses:
+        '200':
+          description: Shortening task created successfully
+
+  /v1/pan:
+    post:
+      tags:
+        - Image Generation
+      summary: Pan Extend
+      description: Extend images in a single specified direction with precision
+      operationId: panExtend
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PanRequest'
+      responses:
+        '200':
+          description: Pan task created successfully
+
+  /v1/outpaint:
+    post:
+      tags:
+        - Image Generation
+      summary: Outpaint
+      description: Expand images in all directions using intelligent outpainting
+      operationId: outpaint
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutpaintRequest'
+      responses:
+        '200':
+          description: Outpaint task created successfully
+
+  /v1/inpaint:
+    post:
+      tags:
+        - Image Generation
+      summary: Inpaint
+      description: Selectively modify regions using masks and targeted prompts
+      operationId: inpaint
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InpaintRequest'
+      responses:
+        '200':
+          description: Inpaint task created successfully
+
+  /v1/remix:
+    post:
+      tags:
+        - Image Generation
+      summary: Remix
+      description: Transform images with new prompts and controllable intensity
+      operationId: remixImage
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemixRequest'
+      responses:
+        '200':
+          description: Remix task created successfully
+
+  /v1/edit:
+    post:
+      tags:
+        - Image Generation
+      summary: Edit Image
+      description: Edit and repaint specific areas of existing images with precision control
+      operationId: editImage
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditRequest'
+      responses:
+        '200':
+          description: Edit task created successfully
+
+  /v1/upload-paint:
+    post:
+      tags:
+        - Image Generation
+      summary: Advanced Edit with Canvas
+      description: Complex editing with custom canvas positioning and masks
+      operationId: uploadPaint
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadPaintRequest'
+      responses:
+        '200':
+          description: Upload paint task created successfully
+
+  /v1/retexture:
+    post:
+      tags:
+        - Image Generation
+      summary: Retexture
+      description: Transform materials and textures with AI-powered style transfer
+      operationId: retexture
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetextureRequest'
+      responses:
+        '200':
+          description: Retexture task created successfully
+
+  /v1/remove-background:
+    post:
+      tags:
+        - Image Generation
+      summary: Remove Background
+      description: Automatically remove backgrounds to create clean cutouts
+      operationId: removeBackground
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveBackgroundRequest'
+      responses:
+        '200':
+          description: Remove background task created successfully
+
+  /v1/enhance:
+    post:
+      tags:
+        - Image Generation
+      summary: Enhance
+      description: Improve image quality, clarity, and detail at current resolution. Requires original image created with `--v7 --draft`
+      operationId: enhanceImage
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnhanceRequest'
+      responses:
+        '200':
+          description: Enhance task created successfully
+
+  # Video Generation Endpoints
+  /v1/video-diffusion:
+    post:
+      tags:
+        - Video Generation
+      summary: Video Diffusion
+      description: Generate dynamic videos from text prompts or existing images
+      operationId: generateVideo
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoDiffusionRequest'
+      responses:
+        '200':
+          description: Video generation task created successfully
+
+  /v1/extend-video:
+    post:
+      tags:
+        - Video Generation
+      summary: Extend Video
+      description: Extend existing videos with seamless continuation and motion
+      operationId: extendVideo
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtendVideoRequest'
+      responses:
+        '200':
+          description: Video extend task created successfully
+
+  /v1/video-upscale:
+    post:
+      tags:
+        - Video Generation
+      summary: Video Upscale
+      description: Enhance video resolution and quality using AI upscaling technology
+      operationId: upscaleVideo
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoUpscaleRequest'
+      responses:
+        '200':
+          description: Video upscale task created successfully
+
+  # Task Management Endpoints
+  /v1/job/{job_id}:
+    get:
+      tags:
+        - Task Management
+      summary: Get Task Status
+      description: Retrieve the status and results of a job using its job ID
+      operationId: getTaskStatus
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the job
+      responses:
+        '200':
+          description: Task information retrieved successfully
+
+  # Account Endpoints
+  /account/info:
+    get:
+      tags:
+        - Account
+      summary: Get Account Information
+      description: Retrieve detailed account information including subscription plan, balance, and quota usage
+      operationId: getAccountInfo
+      responses:
+        '200':
+          description: Account information retrieved successfully
+
+  /account/balance:
+    get:
+      tags:
+        - Account
+      summary: Get Account Balance
+      description: Retrieve your account balance, available credits, and points
+      operationId: getAccountBalance
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Balance retrieved successfully
+
+  /account/active_tasks:
+    get:
+      tags:
+        - Account
+      summary: Get Active Tasks
+      description: Retrieve list of currently active tasks for the account, including their status and progress
+      operationId: getActiveTasks
+      responses:
+        '200':
+          description: Active tasks list retrieved successfully
