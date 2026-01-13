@@ -126,7 +126,7 @@ git_push.sh
 /sdks/ruby/.bundle/
 /sdks/ruby/spec/
 /sdks/ruby/.rspec
-/sdks/ruby/*.gemspec
+/sdks/ruby/openapi_client.gemspec
 
 ## Rust SDK
 /sdks/rust/.env
