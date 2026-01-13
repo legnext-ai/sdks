@@ -4,7 +4,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -25,13 +25,13 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext;
+namespace OpenAPI\Client;
 
 /**
  * HeaderSelector Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */

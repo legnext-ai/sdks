@@ -4,7 +4,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -25,7 +25,7 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext\Api;
+namespace OpenAPI\Client\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -36,17 +36,17 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Legnext\ApiException;
-use Legnext\Configuration;
-use Legnext\FormDataProcessor;
-use Legnext\HeaderSelector;
-use Legnext\ObjectSerializer;
+use OpenAPI\Client\ApiException;
+use OpenAPI\Client\Configuration;
+use OpenAPI\Client\FormDataProcessor;
+use OpenAPI\Client\HeaderSelector;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * ImageApi Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -164,17 +164,17 @@ class ImageApi
      * Blend
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  string|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1BlendPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1BlendPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
+    public function apiV1BlendPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
     {
-        $this->apiV1BlendPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1BlendPostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -183,17 +183,16 @@ class ImageApi
      * Blend
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  string|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1BlendPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1BlendPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
+    public function apiV1BlendPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
     {
-        $request = $this->apiV1BlendPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1BlendPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -218,9 +217,45 @@ class ImageApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -234,16 +269,15 @@ class ImageApi
      * Blend
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  string|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1BlendPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1BlendPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
+    public function apiV1BlendPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
     {
-        return $this->apiV1BlendPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1BlendPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -257,23 +291,35 @@ class ImageApi
      * Blend
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  string|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1BlendPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1BlendPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
+    public function apiV1BlendPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1BlendPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1BlendPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -296,16 +342,14 @@ class ImageApi
      * Create request for operation 'apiV1BlendPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  string|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1BlendPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1BlendPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
+    public function apiV1BlendPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1BlendPost'][0])
     {
-
 
 
 
@@ -321,10 +365,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -398,13 +438,14 @@ class ImageApi
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1DescribePost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
     public function apiV1DescribePost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1DescribePost'][0])
     {
-        $this->apiV1DescribePostWithHttpInfo($x_api_key, $body, $contentType);
+        list($response) = $this->apiV1DescribePostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -416,9 +457,9 @@ class ImageApi
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1DescribePost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function apiV1DescribePostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1DescribePost'][0])
     {
@@ -447,9 +488,45 @@ class ImageApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -493,14 +570,27 @@ class ImageApi
      */
     public function apiV1DescribePostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1DescribePost'][0])
     {
-        $returnType = '';
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
         $request = $this->apiV1DescribePostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -616,17 +706,16 @@ class ImageApi
      * Diffusion
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1DiffusionPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Legnext\Model\ApiV1DiffusionPost200Response
+     * @return \OpenAPI\Client\Model\ApiV1DiffusionPost200Response
      */
-    public function apiV1DiffusionPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
+    public function apiV1DiffusionPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
     {
-        list($response) = $this->apiV1DiffusionPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1DiffusionPostWithHttpInfo($x_api_key, $body, $contentType);
         return $response;
     }
 
@@ -636,17 +725,16 @@ class ImageApi
      * Diffusion
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1DiffusionPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Legnext\Model\ApiV1DiffusionPost200Response, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\ApiV1DiffusionPost200Response, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1DiffusionPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
+    public function apiV1DiffusionPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
     {
-        $request = $this->apiV1DiffusionPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1DiffusionPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -674,7 +762,7 @@ class ImageApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\Legnext\Model\ApiV1DiffusionPost200Response',
+                        '\OpenAPI\Client\Model\ApiV1DiffusionPost200Response',
                         $request,
                         $response,
                     );
@@ -696,7 +784,7 @@ class ImageApi
             }
 
             return $this->handleResponseWithDataType(
-                '\Legnext\Model\ApiV1DiffusionPost200Response',
+                '\OpenAPI\Client\Model\ApiV1DiffusionPost200Response',
                 $request,
                 $response,
             );
@@ -705,7 +793,7 @@ class ImageApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Legnext\Model\ApiV1DiffusionPost200Response',
+                        '\OpenAPI\Client\Model\ApiV1DiffusionPost200Response',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -723,16 +811,15 @@ class ImageApi
      * Diffusion
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1DiffusionPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1DiffusionPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
+    public function apiV1DiffusionPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
     {
-        return $this->apiV1DiffusionPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1DiffusionPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -746,17 +833,16 @@ class ImageApi
      * Diffusion
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1DiffusionPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1DiffusionPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
+    public function apiV1DiffusionPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
     {
-        $returnType = '\Legnext\Model\ApiV1DiffusionPost200Response';
-        $request = $this->apiV1DiffusionPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\ApiV1DiffusionPost200Response';
+        $request = $this->apiV1DiffusionPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -798,16 +884,14 @@ class ImageApi
      * Create request for operation 'apiV1DiffusionPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1DiffusionPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1DiffusionPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
+    public function apiV1DiffusionPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1DiffusionPost'][0])
     {
-
 
 
 
@@ -823,10 +907,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -897,17 +977,16 @@ class ImageApi
      * Edit
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1EditPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Legnext\Model\ApiV1EditPost200Response
+     * @return \OpenAPI\Client\Model\ApiV1EditPost200Response
      */
-    public function apiV1EditPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
+    public function apiV1EditPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
     {
-        list($response) = $this->apiV1EditPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1EditPostWithHttpInfo($x_api_key, $body, $contentType);
         return $response;
     }
 
@@ -917,17 +996,16 @@ class ImageApi
      * Edit
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1EditPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Legnext\Model\ApiV1EditPost200Response, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\ApiV1EditPost200Response, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1EditPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
+    public function apiV1EditPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
     {
-        $request = $this->apiV1EditPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1EditPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -955,7 +1033,7 @@ class ImageApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\Legnext\Model\ApiV1EditPost200Response',
+                        '\OpenAPI\Client\Model\ApiV1EditPost200Response',
                         $request,
                         $response,
                     );
@@ -977,7 +1055,7 @@ class ImageApi
             }
 
             return $this->handleResponseWithDataType(
-                '\Legnext\Model\ApiV1EditPost200Response',
+                '\OpenAPI\Client\Model\ApiV1EditPost200Response',
                 $request,
                 $response,
             );
@@ -986,7 +1064,7 @@ class ImageApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Legnext\Model\ApiV1EditPost200Response',
+                        '\OpenAPI\Client\Model\ApiV1EditPost200Response',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1004,16 +1082,15 @@ class ImageApi
      * Edit
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1EditPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1EditPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
+    public function apiV1EditPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
     {
-        return $this->apiV1EditPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1EditPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1027,17 +1104,16 @@ class ImageApi
      * Edit
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1EditPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1EditPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
+    public function apiV1EditPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
     {
-        $returnType = '\Legnext\Model\ApiV1EditPost200Response';
-        $request = $this->apiV1EditPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\ApiV1EditPost200Response';
+        $request = $this->apiV1EditPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1079,16 +1155,14 @@ class ImageApi
      * Create request for operation 'apiV1EditPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1EditPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1EditPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
+    public function apiV1EditPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1EditPost'][0])
     {
-
 
 
 
@@ -1104,10 +1178,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -1178,17 +1248,17 @@ class ImageApi
      * Inpaint
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1InpaintPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1InpaintPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
+    public function apiV1InpaintPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
     {
-        $this->apiV1InpaintPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1InpaintPostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -1197,17 +1267,16 @@ class ImageApi
      * Inpaint
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1InpaintPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1InpaintPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
+    public function apiV1InpaintPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
     {
-        $request = $this->apiV1InpaintPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1InpaintPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1232,9 +1301,45 @@ class ImageApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -1248,16 +1353,15 @@ class ImageApi
      * Inpaint
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1InpaintPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1InpaintPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
+    public function apiV1InpaintPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
     {
-        return $this->apiV1InpaintPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1InpaintPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1271,23 +1375,35 @@ class ImageApi
      * Inpaint
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1InpaintPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1InpaintPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
+    public function apiV1InpaintPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1InpaintPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1InpaintPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1310,16 +1426,14 @@ class ImageApi
      * Create request for operation 'apiV1InpaintPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1InpaintPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1InpaintPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
+    public function apiV1InpaintPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1InpaintPost'][0])
     {
-
 
 
 
@@ -1335,10 +1449,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -1409,17 +1519,17 @@ class ImageApi
      * Outpaint
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1OutpaintPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1OutpaintPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
+    public function apiV1OutpaintPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
     {
-        $this->apiV1OutpaintPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1OutpaintPostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -1428,17 +1538,16 @@ class ImageApi
      * Outpaint
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1OutpaintPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1OutpaintPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
+    public function apiV1OutpaintPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
     {
-        $request = $this->apiV1OutpaintPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1OutpaintPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1463,9 +1572,45 @@ class ImageApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -1479,16 +1624,15 @@ class ImageApi
      * Outpaint
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1OutpaintPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1OutpaintPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
+    public function apiV1OutpaintPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
     {
-        return $this->apiV1OutpaintPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1OutpaintPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1502,23 +1646,35 @@ class ImageApi
      * Outpaint
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1OutpaintPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1OutpaintPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
+    public function apiV1OutpaintPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1OutpaintPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1OutpaintPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1541,16 +1697,14 @@ class ImageApi
      * Create request for operation 'apiV1OutpaintPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1OutpaintPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1OutpaintPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
+    public function apiV1OutpaintPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1OutpaintPost'][0])
     {
-
 
 
 
@@ -1566,10 +1720,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -1640,17 +1790,16 @@ class ImageApi
      * Pan
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1PanPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Legnext\Model\ApiV1PanPost200Response
+     * @return \OpenAPI\Client\Model\ApiV1PanPost200Response
      */
-    public function apiV1PanPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
+    public function apiV1PanPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
     {
-        list($response) = $this->apiV1PanPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1PanPostWithHttpInfo($x_api_key, $body, $contentType);
         return $response;
     }
 
@@ -1660,17 +1809,16 @@ class ImageApi
      * Pan
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1PanPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Legnext\Model\ApiV1PanPost200Response, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\ApiV1PanPost200Response, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1PanPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
+    public function apiV1PanPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
     {
-        $request = $this->apiV1PanPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1PanPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1698,7 +1846,7 @@ class ImageApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\Legnext\Model\ApiV1PanPost200Response',
+                        '\OpenAPI\Client\Model\ApiV1PanPost200Response',
                         $request,
                         $response,
                     );
@@ -1720,7 +1868,7 @@ class ImageApi
             }
 
             return $this->handleResponseWithDataType(
-                '\Legnext\Model\ApiV1PanPost200Response',
+                '\OpenAPI\Client\Model\ApiV1PanPost200Response',
                 $request,
                 $response,
             );
@@ -1729,7 +1877,7 @@ class ImageApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Legnext\Model\ApiV1PanPost200Response',
+                        '\OpenAPI\Client\Model\ApiV1PanPost200Response',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1747,16 +1895,15 @@ class ImageApi
      * Pan
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1PanPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1PanPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
+    public function apiV1PanPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
     {
-        return $this->apiV1PanPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1PanPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1770,17 +1917,16 @@ class ImageApi
      * Pan
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1PanPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1PanPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
+    public function apiV1PanPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
     {
-        $returnType = '\Legnext\Model\ApiV1PanPost200Response';
-        $request = $this->apiV1PanPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\ApiV1PanPost200Response';
+        $request = $this->apiV1PanPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1822,16 +1968,14 @@ class ImageApi
      * Create request for operation 'apiV1PanPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1PanPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1PanPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
+    public function apiV1PanPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1PanPost'][0])
     {
-
 
 
 
@@ -1847,10 +1991,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -1921,17 +2061,17 @@ class ImageApi
      * Remix
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RemixPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1RemixPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
+    public function apiV1RemixPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
     {
-        $this->apiV1RemixPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1RemixPostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -1940,17 +2080,16 @@ class ImageApi
      * Remix
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RemixPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1RemixPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
+    public function apiV1RemixPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
     {
-        $request = $this->apiV1RemixPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1RemixPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1975,9 +2114,45 @@ class ImageApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -1991,16 +2166,15 @@ class ImageApi
      * Remix
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RemixPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1RemixPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
+    public function apiV1RemixPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
     {
-        return $this->apiV1RemixPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1RemixPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2014,23 +2188,35 @@ class ImageApi
      * Remix
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RemixPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1RemixPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
+    public function apiV1RemixPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1RemixPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1RemixPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2053,16 +2239,14 @@ class ImageApi
      * Create request for operation 'apiV1RemixPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RemixPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1RemixPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
+    public function apiV1RemixPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RemixPost'][0])
     {
-
 
 
 
@@ -2078,10 +2262,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -2152,17 +2332,17 @@ class ImageApi
      * Reroll
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RerollPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1RerollPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
+    public function apiV1RerollPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
     {
-        $this->apiV1RerollPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1RerollPostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -2171,17 +2351,16 @@ class ImageApi
      * Reroll
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RerollPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1RerollPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
+    public function apiV1RerollPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
     {
-        $request = $this->apiV1RerollPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1RerollPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2206,9 +2385,45 @@ class ImageApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -2222,16 +2437,15 @@ class ImageApi
      * Reroll
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RerollPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1RerollPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
+    public function apiV1RerollPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
     {
-        return $this->apiV1RerollPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1RerollPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2245,23 +2459,35 @@ class ImageApi
      * Reroll
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RerollPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1RerollPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
+    public function apiV1RerollPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1RerollPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1RerollPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2284,16 +2510,14 @@ class ImageApi
      * Create request for operation 'apiV1RerollPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1RerollPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1RerollPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
+    public function apiV1RerollPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1RerollPost'][0])
     {
-
 
 
 
@@ -2309,10 +2533,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -2386,13 +2606,14 @@ class ImageApi
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1ShortenPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
     public function apiV1ShortenPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1ShortenPost'][0])
     {
-        $this->apiV1ShortenPostWithHttpInfo($x_api_key, $body, $contentType);
+        list($response) = $this->apiV1ShortenPostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -2404,9 +2625,9 @@ class ImageApi
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1ShortenPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function apiV1ShortenPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1ShortenPost'][0])
     {
@@ -2435,9 +2656,45 @@ class ImageApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -2481,14 +2738,27 @@ class ImageApi
      */
     public function apiV1ShortenPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1ShortenPost'][0])
     {
-        $returnType = '';
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
         $request = $this->apiV1ShortenPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2604,17 +2874,17 @@ class ImageApi
      * Upscale
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1UpscalePost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1UpscalePost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
+    public function apiV1UpscalePost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
     {
-        $this->apiV1UpscalePostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1UpscalePostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -2623,17 +2893,16 @@ class ImageApi
      * Upscale
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1UpscalePost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1UpscalePostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
+    public function apiV1UpscalePostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
     {
-        $request = $this->apiV1UpscalePostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1UpscalePostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2658,9 +2927,45 @@ class ImageApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -2674,16 +2979,15 @@ class ImageApi
      * Upscale
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1UpscalePost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1UpscalePostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
+    public function apiV1UpscalePostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
     {
-        return $this->apiV1UpscalePostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1UpscalePostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2697,23 +3001,35 @@ class ImageApi
      * Upscale
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1UpscalePost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1UpscalePostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
+    public function apiV1UpscalePostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1UpscalePostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1UpscalePostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2736,16 +3052,14 @@ class ImageApi
      * Create request for operation 'apiV1UpscalePost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1UpscalePost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1UpscalePostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
+    public function apiV1UpscalePostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1UpscalePost'][0])
     {
-
 
 
 
@@ -2761,10 +3075,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -2835,17 +3145,17 @@ class ImageApi
      * Variation
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VariationPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1VariationPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
+    public function apiV1VariationPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
     {
-        $this->apiV1VariationPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1VariationPostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -2854,17 +3164,16 @@ class ImageApi
      * Variation
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VariationPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1VariationPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
+    public function apiV1VariationPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
     {
-        $request = $this->apiV1VariationPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1VariationPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2889,9 +3198,45 @@ class ImageApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -2905,16 +3250,15 @@ class ImageApi
      * Variation
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VariationPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1VariationPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
+    public function apiV1VariationPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
     {
-        return $this->apiV1VariationPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1VariationPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2928,23 +3272,35 @@ class ImageApi
      * Variation
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VariationPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1VariationPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
+    public function apiV1VariationPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1VariationPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1VariationPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2967,16 +3323,14 @@ class ImageApi
      * Create request for operation 'apiV1VariationPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VariationPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1VariationPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
+    public function apiV1VariationPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VariationPost'][0])
     {
-
 
 
 
@@ -2992,10 +3346,6 @@ class ImageApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 

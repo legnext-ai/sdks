@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## ApiV1ExtendVideoPost
 
-> ApiV1ExtendVideoPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1ExtendVideoPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Extend Video
 
@@ -33,16 +33,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.VideoAPI.ApiV1ExtendVideoPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.VideoAPI.ApiV1ExtendVideoPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `VideoAPI.ApiV1ExtendVideoPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1ExtendVideoPost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `VideoAPI.ApiV1ExtendVideoPost`: %v\n", resp)
 }
 ```
 
@@ -58,12 +59,11 @@ Other parameters are passed through a pointer to a apiApiV1ExtendVideoPostReques
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -153,7 +153,7 @@ No authorization required
 
 ## ApiV1VideoDiffusionPost
 
-> ApiV1VideoDiffusionPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1VideoDiffusionPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Video Diffusion
 
@@ -173,16 +173,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.VideoAPI.ApiV1VideoDiffusionPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.VideoAPI.ApiV1VideoDiffusionPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `VideoAPI.ApiV1VideoDiffusionPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1VideoDiffusionPost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `VideoAPI.ApiV1VideoDiffusionPost`: %v\n", resp)
 }
 ```
 
@@ -198,12 +199,11 @@ Other parameters are passed through a pointer to a apiApiV1VideoDiffusionPostReq
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -221,7 +221,7 @@ No authorization required
 
 ## ApiV1VideoUpscalePost
 
-> ApiV1VideoUpscalePost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1VideoUpscalePost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Video Upscale
 
@@ -241,16 +241,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.VideoAPI.ApiV1VideoUpscalePost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.VideoAPI.ApiV1VideoUpscalePost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `VideoAPI.ApiV1VideoUpscalePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1VideoUpscalePost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `VideoAPI.ApiV1VideoUpscalePost`: %v\n", resp)
 }
 ```
 
@@ -266,12 +267,11 @@ Other parameters are passed through a pointer to a apiApiV1VideoUpscalePostReque
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 

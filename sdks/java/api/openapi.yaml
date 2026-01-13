@@ -1,0 +1,1540 @@
+openapi: 3.0.0
+info:
+  description: |-
+    # **Legnext.ai Midjourney API: The Ultimate AI Image Generation Toolkit**
+
+    Unlock the full creative potential of Midjourney directly within your applications and development workflows using the **Legnext.ai Midjourney API (Unofficial)**. This comprehensive collection offers a ready-to-integrate solution for professional image and video creation, manipulation, and high-fidelity upscaling.
+
+    We provide developers with **stable, high-performance API access** to the Midjourney model. Crucially, integrating our service requires **no Midjourney account**, eliminating the hassle of managing official subscriptions or Discord interactions. Our toolkit simplifies the entire text-to-image process, supporting complex prompts, aspect ratio adjustments, and advanced style parameters.
+
+    Focus on innovation while we handle the AI infrastructure. Start building scalable, visually stunning applications today with reliable access to the world’s leading generative AI model.
+  title: Midjourney api-unofficial by Legnext.ai
+  version: 1.0.0
+servers:
+- description: Production server
+  url: https://api.legnext.ai
+tags:
+- description: "Contains all image generation, manipulation, and transformation endpoints."
+  name: image
+- description: "Handles video generation, upscaling, and extension operations."
+  name: Video
+- description: Manages API account operations and balance checking.
+  name: account management
+paths:
+  /api/v1/diffusion:
+    post:
+      description: "## Generate Image from Text Prompt (Diffusion)\n\nCreates AI-generated\
+        \ images from text descriptions using Midjourney's diffusion model. This endpoint\
+        \ processes your prompt asynchronously and delivers the generated image to\
+        \ your specified callback URL.\n\n### How It Works\n\nSubmit a text prompt\
+        \ describing the image you want to create. The API processes your request\
+        \ using Midjourney's AI model and sends the generated image result to your\
+        \ callback URL when complete. Processing typically takes 30-90 seconds depending\
+        \ on complexity and queue length.\n\n### Required Parameters\n\n- **`text`**\
+        \ (string, required) - Your image description prompt\n    \n    - Example:\
+        \ `\"A beautiful sunset over the snow mountains\"`\n        \n    - Supports\
+        \ Midjourney parameters like `--v 7` (model version), `--draft` (draft mode),\
+        \ `--ar 16:9` (aspect ratio)\n        \n    - Be specific and descriptive\
+        \ for best results\n        \n- **`callback`** (string, required) - HTTPS\
+        \ webhook URL to receive the result\n    \n    - Must be publicly accessible\
+        \ and accept POST requests\n        \n    - Example: `\"https://your-domain.com/webhook/image-result\"\
+        `\n        \n    - The API will send the generated image data to this URL\
+        \ when processing completes\n        \n\n### Authentication\n\nRequires a\
+        \ valid API key in the `x-api-key` header. Store your API key securely in\
+        \ environment variables and never expose it in client-side code.\n\n### Response\n\
+        \nReturns immediately with a task ID and status. The actual generated image\
+        \ will be delivered to your callback URL asynchronously once processing completes.\n\
+        \n### Common Use Cases\n\n- Generate marketing visuals and social media content\n\
+        \    \n- Create concept art and design mockups\n    \n- Produce unique illustrations\
+        \ for articles and presentations\n    \n- Prototype visual ideas before commissioning\
+        \ custom artwork\n    \n- Build AI-powered image generation features into\
+        \ your applications\n    \n\n### Tips for Success\n\n- **Be specific:** Detailed\
+        \ prompts produce better results (e.g., \"photorealistic mountain landscape\
+        \ at golden hour\" vs \"mountains\")\n    \n- **Use Midjourney parameters:**\
+        \ Add `--v 7` for the latest model version, `--ar 16:9` for widescreen format\n\
+        \    \n- **Test your callback:** Ensure your webhook endpoint is accessible\
+        \ and can handle POST requests before submitting jobs\n    \n- **Handle async\
+        \ responses:** Implement proper webhook handling to receive and process results\n\
+        \    \n- **Monitor task status:** Use the \"Get task response\" endpoint if\
+        \ you need to check job status manually\n    \n\n### Related Endpoints\n\n\
+        - **Get task response** - Check the status of your generation task\n    \n\
+        - **Variation** - Create variations of a generated image\n    \n- **Upscale**\
+        \ - Enhance the resolution of generated images\n    \n- **Reroll** - Generate\
+        \ alternative versions with the same prompt"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                text: A beautiful sunset over the snow mountains --v 7 --draft
+                callback: https://webhook.site/d0ca59bc-35a6-4a1e-b1b1-aea7faeb7f67
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_api_v1_diffusion_post_200_response"
+          description: Successful response
+      summary: Diffusion
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/upscale:
+    post:
+      description: "## Enhance Image Resolution and Quality\n\nUpscale and enhance\
+        \ one of your generated images to higher resolution with AI-powered quality\
+        \ improvement. Produces a single high-resolution version of the selected image.\n\
+        \n### How it Works\n\nSelect one image from a generation task and choose upscaling\
+        \ type. The API processes the image to increase resolution while adding detail\
+        \ and clarity based on the selected upscaling mode.\n\n### Required Parameters\n\
+        \n- `jobId` - UUID of the original image generation task\n    \n- `imageNo`\
+        \ - Image number to upscale (0, 1, 2, or 3)\n    \n- `type` - Upscaling type:\
+        \ 0=Subtle (conservative enhancement), 1=Creative (adds detail and interpretation)\n\
+        \    \n\n### Authentication\n\nRequires a valid API key passed in the `x-api-key`\
+        \ header.\n\n### Response\n\nReturns a task object. The upscaled image (single\
+        \ high-resolution output) will be sent to your callback URL when complete\
+        \ (typically 90-120 seconds).\n\n### Use Cases\n\n- Prepare images for print\
+        \ or high-resolution displays\n    \n- Enhance selected variations for final\
+        \ delivery\n    \n- Create detailed versions for client presentations\n  \
+        \  \n- Generate production-ready assets from generations\n    \n\n### Tips\n\
+        \n- Type 0 (Subtle) is safer for preserving exact details\n    \n- Type 1\
+        \ (Creative) works well for artistic images where added interpretation is\
+        \ acceptable\n    \n- Upscaling is typically the final step after selecting\
+        \ your preferred variation\n    \n- Output resolution is significantly higher\
+        \ than the original 4-image grid"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: 5dd94ec3-7282-4f04-9445-59e850ef1822
+                imageNo: 0
+                type: 0
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Upscale
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/reroll:
+    post:
+      description: "## Re-execute Task with Same Parameters\n\nRegenerate a new set\
+        \ of images using the exact same parameters as a previous task. This is equivalent\
+        \ to running the original request again with identical settings.\n\n### How\
+        \ it Works\n\nProvide a previous task's job ID and the API will execute the\
+        \ same generation with the same prompt and parameters, producing 4 completely\
+        \ new variations.\n\n### Required Parameters\n\n- `jobId` - UUID of the task\
+        \ to reroll\n    \n\n### Authentication\n\nRequires a valid API key passed\
+        \ in the `x-api-key` header.\n\n### Response\n\nReturns a new task object\
+        \ with different `job_id`. The rerolled images (4 new variations) will be\
+        \ sent to your callback URL when complete (typically 60-90 seconds).\n\n###\
+        \ Use Cases\n\n- Try the same prompt again if initial results didn't meet\
+        \ expectations\n    \n- Generate additional variations without retyping prompts\n\
+        \    \n- Explore different random seeds for the same concept\n    \n- Create\
+        \ more options from successful prompts\n    \n\n### Tips\n\n- Reroll uses\
+        \ the exact same parameters as the original task\n    \n- Results will be\
+        \ completely different due to different random seeds\n    \n- Consider using\
+        \ variation endpoint instead if you want to build on a specific result\n \
+        \   \n- You can reroll any completed task, even from previous sessions"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: 5dd94ec3-7282-4f04-9445-59e850ef1822
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Reroll
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/variation:
+    post:
+      description: "## Create Controlled Variations of Existing Images\n\nGenerate\
+        \ new variations of a specific image from a previous generation task with\
+        \ controllable transformation intensity. Perfect for exploring different interpretations\
+        \ while maintaining the core composition.\n\n### How it Works\n\nSelect one\
+        \ of the 4 generated images from a diffusion task and create variations with\
+        \ either subtle or strong intensity. The API generates 4 new variations based\
+        \ on your selected image and intensity setting.\n\n### Required Parameters\n\
+        \n- `jobId` - UUID of the original image generation task\n    \n- `imageNo`\
+        \ - Image number to vary (0, 1, 2, or 3)\n    \n- `type` - Variation intensity:\
+        \ 0=Subtle (minor changes), 1=Strong (major changes)\n    \n- `remixPrompt`\
+        \ - Optional additional prompt for guided variation (1-8192 characters)\n\
+        \    \n\n### Authentication\n\nRequires a valid API key passed in the `x-api-key`\
+        \ header.\n\n### Response\n\nReturns a new task object with `job_id`. The\
+        \ 4 variation images will be sent to your callback URL when processing completes\
+        \ (typically 60-90 seconds).\n\n### Use Cases\n\n- Explore different interpretations\
+        \ of a successful generation\n    \n- Fine-tune specific aspects of an image\n\
+        \    \n- Create multiple versions for A/B testing\n    \n- Generate variations\
+        \ for client review\n    \n- Remix images with additional prompt guidance\n\
+        \    \n\n### Tips\n\n- Use type=0 (subtle) for minor refinements, type=1 (strong)\
+        \ for significant changes\n    \n- Add remixPrompt to guide the variation\
+        \ in a specific direction\n    \n- The original composition and structure\
+        \ are generally preserved\n    \n- Can chain variations: create variations\
+        \ of variations for iterative refinement"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: 5dd94ec3-7282-4f04-9445-59e850ef1822
+                imageNo: 1
+                type: 1
+                remixPrompt: A beautiful sunset over the snow mountains
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Variation
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/inpaint:
+    post:
+      description: "## Selectively Modify Image Regions with Masks\n\nRepaint or modify\
+        \ specific regions within an existing image using mask-based editing. Target\
+        \ precise areas for changes while preserving the rest of the image.\n\n###\
+        \ How it Works\n\nSelect an image and define regions to modify using either\
+        \ polygon coordinates or a mask image URL. Optionally provide a prompt to\
+        \ guide what should appear in those regions. The API regenerates only the\
+        \ masked areas.\n\n### Required Parameters\n\n- `jobId` - UUID of the original\
+        \ image generation task\n    \n- `imageNo` - Image number to edit (0, 1, 2,\
+        \ or 3)\n    \n- `mask` - Regions to repaint (use either areas array or url):\n\
+        \    \n    - `areas` - Array of polygons with width, height, and points (XYXY\
+        \ coordinates)\n        \n    - `url` - Black and white mask image URL (white\
+        \ areas will be repainted)\n        \n- `remixPrompt` - Optional prompt for\
+        \ the repaint area (1-8192 characters)\n    \n\n### Authentication\n\nRequires\
+        \ a valid API key passed in the `x-api-key` header.\n\n### Response\n\nReturns\
+        \ a task object. The inpainted images (4 variations) will be sent to your\
+        \ callback URL when complete (typically 90-120 seconds).\n\n### Use Cases\n\
+        \n- Remove unwanted objects from images\n    \n- Replace specific elements\
+        \ while keeping surroundings\n    \n- Modify facial expressions or poses\n\
+        \    \n- Change colors or textures in targeted areas\n    \n- Fix specific\
+        \ issues without regenerating entire image\n    \n\n### Tips\n\n- Polygon\
+        \ points format: \\[x1,y1, x2,y2, x3,y3, x4,y4\\] in clockwise order\n   \
+        \ \n- Mask images: white = repaint, black = keep original\n    \n- Use remixPrompt\
+        \ to specify what should replace masked content\n    \n- Smaller masks give\
+        \ more precise control\n    \n- Can apply multiple polygon areas in a single\
+        \ request"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: 5dd94ec3-7282-4f04-9445-59e850ef1822
+                imageNo: 0
+                mask:
+                  areas:
+                  - width: 500
+                    height: 500
+                    points:
+                    - 10
+                    - 10
+                    - 10
+                    - 100
+                    - 100
+                    - 100
+                    - 100
+                    - 10
+                remixPrompt: Add a tree in the center
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Inpaint
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/outpaint:
+    post:
+      description: "## Expand Images in All Directions\n\nExtend an image uniformly\
+        \ in all directions using intelligent outpainting. Creates a larger canvas\
+        \ while maintaining the original image at the center.\n\n### How it Works\n\
+        \nSelect an image and specify scale factor. The API expands the canvas uniformly\
+        \ in all directions and generates new content that naturally continues the\
+        \ scene on all sides.\n\n### Required Parameters\n\n- `jobId` - UUID of the\
+        \ original image generation task\n    \n- `imageNo` - Image number to expand\
+        \ (0, 1, 2, or 3)\n    \n- `scale` - Extension scale ratio (1.1 to 2.0, e.g.,\
+        \ 1.5 = 50% larger in all directions)\n    \n- `remixPrompt` - Optional prompt\
+        \ to guide the outpainted areas (1-8192 characters)\n    \n\n### Authentication\n\
+        \nRequires a valid API key passed in the `x-api-key` header.\n\n### Response\n\
+        \nReturns a task object. The outpainted images (4 variations) will be sent\
+        \ to your callback URL when complete (typically 90-120 seconds).\n\n### Use\
+        \ Cases\n\n- Add environmental context around subject-focused images\n   \
+        \ \n- Create wider scenes from cropped compositions\n    \n- Extend backgrounds\
+        \ for design flexibility\n    \n- Generate variations with different surrounding\
+        \ content\n    \n- Prepare images for different aspect ratios\n    \n\n###\
+        \ Tips\n\n- Scale range 1.1-2.0 (outpaint is more conservative than pan)\n\
+        \    \n- Use remixPrompt to describe desired surrounding content\n    \n-\
+        \ Great for adding context without losing the original subject\n    \n- Original\
+        \ image remains intact at center\n    \n- Compare with pan for directional\
+        \ control vs. uniform expansion"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: 5dd94ec3-7282-4f04-9445-59e850ef1822
+                imageNo: 0
+                scale: 1.5
+                remixPrompt: clouds over the sky
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Outpaint
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/pan:
+    post:
+      description: "## Extend Images in Specific Direction\n\nExpand an image in a\
+        \ single specified direction (up, down, left, or right) with precision scale\
+        \ control. Generates new content that seamlessly continues the original image.\n\
+        \n### How it Works\n\nSelect an image and specify direction and scale. The\
+        \ API extends the canvas in that direction and generates new content that\
+        \ naturally continues the scene, maintaining style and coherence.\n\n### Required\
+        \ Parameters\n\n- `jobId` - UUID of the original image generation task\n \
+        \   \n- `imageNo` - Image number to extend (0, 1, 2, or 3)\n    \n- `direction`\
+        \ - Extension direction: 0=Down, 1=Right, 2=Up, 3=Left\n    \n- `scale` -\
+        \ Extension scale ratio (1.1 to 3.0, e.g., 1.5 = 50% larger in that direction)\n\
+        \    \n- `remixPrompt` - Optional prompt to guide the extended content (1-8192\
+        \ characters)\n    \n\n### Authentication\n\nRequires a valid API key passed\
+        \ in the `x-api-key` header.\n\n### Response\n\nReturns a task object. The\
+        \ extended images (4 variations) will be sent to your callback URL when complete\
+        \ (typically 90-120 seconds).\n\n### Use Cases\n\n- Create wider landscape\
+        \ compositions from square images\n    \n- Extend portraits to include more\
+        \ environmental context\n    \n- Add vertical space for text overlays or additional\
+        \ content\n    \n- Build panoramic views from single images\n    \n- Adjust\
+        \ aspect ratios for different platform requirements\n    \n\n### Tips\n\n\
+        - Use remixPrompt to specify what should appear in the extended area\n   \
+        \ \n- Scale 1.5 is a good starting point (50% extension)\n    \n- Higher scales\
+        \ (2.0-3.0) create more new content but may lose coherence\n    \n- Works\
+        \ directionally - use outpaint for all-direction expansion\n    \n- Can be\
+        \ applied multiple times in different directions"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: 5dd94ec3-7282-4f04-9445-59e850ef1822
+                imageNo: 0
+                direction: 1
+                scale: 1.5
+                remixPrompt: a lake near the mountain
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_api_v1_pan_post_200_response"
+          description: Successful response
+      summary: Pan
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/remix:
+    post:
+      description: "## Transform Images with New Prompts\n\nApply a new text prompt\
+        \ to an existing image, transforming it while maintaining aspects of the original\
+        \ composition. Controllable intensity for subtle or dramatic changes.\n\n\
+        ### How it Works\n\nSelect an image and provide a new prompt. The API applies\
+        \ the new description to the existing image, creating variations that blend\
+        \ the original structure with the new concept. Intensity mode controls how\
+        \ strongly the new prompt is applied.\n\n### Required Parameters\n\n- `jobId`\
+        \ - UUID of the original image generation task\n    \n- `imageNo` - Image\
+        \ number to remix (0, 1, 2, or 3)\n    \n- `remixPrompt` - New prompt to apply\
+        \ to the image (1-8192 characters)\n    \n- `mode` - Remix intensity: 0=Strong\
+        \ (significant transformation), 1=Subtle (light transformation)\n    \n\n\
+        ### Authentication\n\nRequires a valid API key passed in the `x-api-key` header.\n\
+        \n### Response\n\nReturns a task object. The remixed images (4 variations)\
+        \ will be sent to your callback URL when complete (typically 90-120 seconds).\n\
+        \n### Use Cases\n\n- Change the style or mood of an existing image\n    \n\
+        - Apply different artistic directions to the same composition\n    \n- Modify\
+        \ time of day, weather, or season in scenes\n    \n- Transform realistic images\
+        \ to artistic styles (or vice versa)\n    \n- Iterate on concepts by applying\
+        \ different prompts\n    \n\n### Tips\n\n- Mode 0 (Strong) makes dramatic\
+        \ changes while keeping some structure\n    \n- Mode 1 (Subtle) makes gentle\
+        \ modifications, preserving more of the original\n    \n- Remix prompt completely\
+        \ replaces the original prompt\n    \n- Great for style transfer and conceptual\
+        \ variations\n    \n- Experiment with both modes to find the right balance"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: 5dd94ec3-7282-4f04-9445-59e850ef1822
+                imageNo: 0
+                mode: 0
+                remixPrompt: Change style to watercolor painting
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Remix
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/edit:
+    post:
+      description: "## Edit Images with Custom Canvas and Positioning\n\nPerform advanced\
+        \ image editing by placing an image on a custom canvas with precise positioning\
+        \ control. Enables complex edits, extensions, and compositions.\n\n### How\
+        \ it Works\n\nPlace a selected image on a custom-sized canvas at specified\
+        \ coordinates. The API fills empty canvas areas with generated content based\
+        \ on your prompt, allowing for flexible composition and extensions.\n\n###\
+        \ Required Parameters\n\n- `jobId` - UUID of the original image generation\
+        \ task\n    \n- `imageNo` - Image number to edit (0, 1, 2, or 3)\n    \n-\
+        \ `canvas` - Target canvas dimensions:\n    \n    - `width` - Canvas width\
+        \ in pixels\n        \n    - `height` - Canvas height in pixels\n        \n\
+        - `imgPos` - Image position on canvas:\n    \n    - `width` - Image width\
+        \ in pixels\n        \n    - `height` - Image height in pixels\n        \n\
+        \    - `x` - Horizontal offset from canvas top-left\n        \n    - `y` -\
+        \ Vertical offset from canvas top-left\n        \n- `remixPrompt` - Prompt\
+        \ for filling empty canvas areas (1-8192 characters)\n    \n\n### Authentication\n\
+        \nRequires a valid API key passed in the `x-api-key` header.\n\n### Response\n\
+        \nReturns a task object. The edited images (4 variations) will be sent to\
+        \ your callback URL when complete (typically 90-120 seconds).\n\n### Use Cases\n\
+        \n- Create complex compositions with custom layouts\n    \n- Extend images\
+        \ asymmetrically in specific directions\n    \n- Place subjects in entirely\
+        \ new contexts\n    \n- Generate custom aspect ratios with filled backgrounds\n\
+        \    \n- Build complex scenes by positioning and extending images\n    \n\n\
+        ### Tips\n\n- Canvas dimensions define the final output size\n    \n- imgPos\
+        \ coordinates place your image within the canvas\n    \n- Empty canvas areas\
+        \ are generated based on remixPrompt\n    \n- More flexible than pan/outpaint\
+        \ for asymmetric extensions\n    \n- Useful for precise aspect ratio and positioning\
+        \ control"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: c6821434-5e41-408f-b42b-2562306b109c
+                imageNo: 1
+                canvas:
+                  width: 1024
+                  height: 1024
+                imgPos:
+                  width: 512
+                  height: 512
+                  x: 256
+                  "y": 256
+                remixPrompt: A beautiful landscape with mountains
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_api_v1_edit_post_200_response"
+          description: Successful response
+      summary: Edit
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/shorten:
+    post:
+      description: "## Simplify Prompts to Essential Elements\n\nAnalyze a long or\
+        \ complex prompt and reduce it to its most essential and impactful elements,\
+        \ maintaining effectiveness while improving clarity.\n\n### How it Works\n\
+        \nSubmit a lengthy prompt and the API analyzes it using AI, identifying the\
+        \ most important elements and removing redundancy. Returns multiple shortened\
+        \ variations.\n\n### Required Parameters\n\n- `prompt` - The text prompt to\
+        \ simplify (1-8192 characters)\n    \n\n### Authentication\n\nRequires a valid\
+        \ API key passed in the `x-api-key` header.\n\n### Response\n\nReturns a task\
+        \ object. The shortened prompt variations will be sent to your callback URL\
+        \ when complete (typically 20-40 seconds).\n\n### Use Cases\n\n- Optimize\
+        \ overly verbose prompts for better results\n    \n- Learn which prompt elements\
+        \ are most impactful\n    \n- Reduce token usage in prompt-based workflows\n\
+        \    \n- Clean up accumulated prompt modifications\n    \n- Simplify complex\
+        \ prompts for better model understanding\n    \n\n### Tips\n\n- Particularly\
+        \ useful for prompts over 100 words\n    \n- The AI preserves key descriptive\
+        \ elements while removing filler\n    \n- Multiple variations help you choose\
+        \ the best simplified version\n    \n- Test both original and shortened prompts\
+        \ to compare results\n    \n- Great for learning concise prompt writing techniques"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                prompt: "A cyberpunk hacker workspace filled with holographic screens,\
+                  \ glowing code streams, mechanical keyboards, neon reflections,\
+                  \ cables and circuit boards everywhere, volumetric lighting, ultra-detailed\
+                  \ sci-fi aesthetic, cinematic atmosphere, inspired by Ghost in the\
+                  \ Shell and Blade Runner, rendered in octane, 8k resolution --ar\
+                  \ 21:9 --v 7 --style raw --q 2"
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Shorten
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/describe:
+    post:
+      description: "## Generate Detailed Text Descriptions from Images\n\nAnalyze\
+        \ an image and generate detailed text descriptions that can be used as prompts\
+        \ for image generation. Perfect for reverse-engineering images or creating\
+        \ prompt variations.\n\n### How it Works\n\nProvide an image URL and the API\
+        \ analyzes the image using AI, generating 4 different text descriptions that\
+        \ capture the image's content, style, mood, and composition.\n\n### Required\
+        \ Parameters\n\n- `imgUrl` - Public URL of the image to analyze and describe\n\
+        \    \n\n### Authentication\n\nRequires a valid API key passed in the `x-api-key`\
+        \ header.\n\n### Response\n\nReturns a task object. The generated descriptions\
+        \ (typically 4 variations) will be sent to your callback URL when complete\
+        \ (typically 30-60 seconds).\n\n### Use Cases\n\n- Reverse-engineer successful\
+        \ images to understand prompt styles\n    \n- Generate prompt variations from\
+        \ reference images\n    \n- Create training data for prompt engineering\n\
+        \    \n- Document image libraries with AI-generated descriptions\n    \n-\
+        \ Learn effective prompt writing by analyzing AI descriptions\n    \n\n###\
+        \ Tips\n\n- Image URL must be publicly accessible\n    \n- Descriptions can\
+        \ be used directly as prompts for diffusion endpoint\n    \n- Each description\
+        \ offers a different perspective/focus on the image\n    \n- Useful for building\
+        \ prompt libraries from visual references\n    \n- Combine with your own modifications\
+        \ for customized prompts"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                imgUrl: https://i.ibb.co/GQLwfvYV/aiony-haust-3-TLl-97-HNJo-unsplash.jpg
+                callback: https://webhook.site/d0ca59bc-35a6-4a1e-b1b1-aea7faeb7f67
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Describe
+      tags:
+      - image
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/blend:
+    post:
+      description: "## Combine Multiple Images into Unified Creation\n\nSeamlessly\
+        \ blend 2-5 images together to create a single unique image that combines\
+        \ elements, styles, and concepts from all source images.\n\n### How it Works\n\
+        \nUpload 2-5 image URLs and specify an aspect ratio. The API analyzes all\
+        \ images and creates a cohesive blend that merges their visual elements, colors,\
+        \ styles, and concepts.\n\n### Required Parameters\n\n- `imgUrls` - Array\
+        \ of 2-5 image URLs to blend\n    \n- `aspect_ratio` - Output aspect ratio:\
+        \ \"2:3\" (portrait), \"1:1\" (square), or \"3:2\" (landscape)\n    \n\n###\
+        \ Authentication\n\nRequires a valid API key passed in the `x-api-key` header.\n\
+        \n### Response\n\nReturns a task object. The blended images (4 variations)\
+        \ will be sent to your callback URL when complete (typically 60-90 seconds).\n\
+        \n### Use Cases\n\n- Combine style references for unique visual concepts\n\
+        \    \n- Merge product photos with artistic styles\n    \n- Create hybrid\
+        \ concepts from multiple references\n    \n- Blend textures and patterns for\
+        \ design work\n    \n- Mix character designs or architectural styles\n   \
+        \ \n\n### Tips\n\n- Works best with 2-3 images; more images create more abstract\
+        \ results\n    \n- All source images should be publicly accessible URLs\n\
+        \    \n- The blend is conceptual, not a simple overlay\n    \n- Consider the\
+        \ aspect ratio based on your intended use\n    \n- Experiment with different\
+        \ image composition, color palettes, or subject matter for varied results."
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              example: "\"{\\n    \\\"imgUrls\\\": [\\n      \\\"https://example.com/image1.png\\\
+                \",\\n      \\\"https://example.com/image2.png\\\"\\n    ],\\n   \
+                \ \\\"aspect_ratio\\\": \\\"1:1\\\",\\n    \\\"callback\\\": \\\"\
+                https://webhook.site/d0ca59bc-35a6-4a1e-b1b1-aea7faeb7f67\\\"\\n \
+                \ }\""
+              type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Blend
+      tags:
+      - image
+      x-content-type: '*/*'
+      x-accepts:
+      - application/json
+  /api/v1/job/{job_id}:
+    get:
+      description: "## Retrieve Job Status and Results\n\nQuery the status and results\
+        \ of any task using its job ID. Use this to check progress, retrieve completed\
+        \ results, or diagnose failures.\n\n### How it Works\n\nProvide a job ID from\
+        \ any previous API request. The API returns the current task status, progress\
+        \ information, and results (if completed). Poll this endpoint to track long-running\
+        \ tasks.\n\n### Required Parameters\n\n- `job_id` - UUID of the task (passed\
+        \ in URL path)\n    \n\n### Authentication\n\nRequires a valid API key passed\
+        \ in the `x-api-key` header.\n\n### Response\n\nReturns complete task information\
+        \ including:\n\n- `status` - Current status: pending, staged, processing,\
+        \ failed, or completed\n    \n- `output` - Generated images/videos (null until\
+        \ completed)\n    \n- `meta` - Timestamps, usage information, processing details\n\
+        \    \n- `error` - Error details if status is \"failed\"\n    \n- `logs` -\
+        \ Processing logs and progress updates\n    \n\n### Status Values\n\n- **pending**:\
+        \ Task queued, waiting to start\n    \n- **staged**: Task prepared, about\
+        \ to begin processing\n    \n- **processing**: Actively generating (includes\
+        \ progress percentage in logs)\n    \n- **completed**: Successfully finished,\
+        \ results available in output field\n    \n- **failed**: Processing failed,\
+        \ check error field for details\n    \n\n### Use Cases\n\n- Poll for task\
+        \ completion if not using webhooks\n    \n- Retrieve results for tasks completed\
+        \ days/weeks ago\n    \n- Debug failed tasks by examining error messages\n\
+        \    \n- Monitor processing progress for long-running jobs\n    \n- Retrieve\
+        \ task history and usage information\n    \n\n### Tips\n\n- Job IDs are permanent\
+        \ - tasks can be retrieved anytime\n    \n- Poll every 10-30 seconds for pending\
+        \ tasks (avoid excessive polling)\n    \n- Webhook callbacks are more efficient\
+        \ than polling\n    \n- Failed tasks include detailed error messages for debugging\n\
+        \    \n- Completed tasks retain all generation parameters in the input field"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: job_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_api_v1_job__job_id__get_200_response"
+          description: Successful response
+      summary: Get task response
+      tags:
+      - Video
+      x-accepts:
+      - application/json
+  /api/v1/video-diffusion:
+    post:
+      description: "## Generate Videos from Text or Animate Images\n\nCreate dynamic\
+        \ videos either from text prompts or by animating existing generated images.\
+        \ Supports two modes: prompt-based generation and image-to-video animation.\n\
+        \n### How it Works\n\n**Mode 1 - Text to Video**: Provide a text prompt and\
+        \ the API generates a video based on the description.  \n**Mode 2 - Image\
+        \ to Video**: Select a previously generated image and optionally add a prompt.\
+        \ The API animates the image, bringing it to life with motion.\n\nProcessing\
+        \ takes 3-5 minutes depending on quality settings. Videos are 4 seconds long.\n\
+        \n### Required Parameters\n\n**For Text Mode**:\n\n- `prompt` - Video generation\
+        \ prompt (1-8192 characters)\n    \n- `videoType` - Quality: 0=480p (faster),\
+        \ 1=720p (higher quality)\n    \n\n**For Image Animation Mode**:\n\n- `jobId`\
+        \ - UUID of source image generation task\n    \n- `imageNo` - Image number\
+        \ to animate (0, 1, 2, or 3)\n    \n- `prompt` - Optional prompt to guide\
+        \ animation (1-8192 characters)\n    \n- `videoType` - Quality: 0=480p (faster),\
+        \ 1=720p (higher quality)\n    \n\n### Authentication\n\nRequires a valid\
+        \ API key passed in the `x-api-key` header.\n\n### Response\n\nReturns a task\
+        \ object. The generated videos (4 variations) will be sent to your callback\
+        \ URL when complete (typically 3-5 minutes).\n\n### Use Cases\n\n- Create\
+        \ animated content from text descriptions\n    \n- Bring static generated\
+        \ images to life with animation\n    \n- Generate video content for social\
+        \ media\n    \n- Create motion graphics and animated sequences\n    \n- Produce\
+        \ video mockups and previews\n    \n\n### Tips\n\n- 720p quality takes longer\
+        \ but provides significantly better results\n    \n- Image animation mode\
+        \ adds motion to existing images\n    \n- 4-second duration is standard -\
+        \ use extend-video to lengthen\n    \n- Prompt in image mode guides animation\
+        \ style and movement\n    \n- Text mode generates both visual content and\
+        \ motion"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                prompt: https://i.ibb.co/yc7NvSqH/kling.jpg A beautiful woman playing
+                  music
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+                videoType: 1
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Video Diffusion
+      tags:
+      - Video
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/extend-video:
+    post:
+      description: "## Extend Video Duration with Seamless Continuation\n\nAdd additional\
+        \ frames to extend the duration of generated videos. Creates smooth continuations\
+        \ that seamlessly flow from the original video.\n\n### How it Works\n\nSelect\
+        \ a previously generated video and optionally provide a prompt to guide the\
+        \ extension. The API analyzes the video's motion and content, then generates\
+        \ additional frames that naturally continue the sequence. Each extension adds\
+        \ 4 seconds.\n\n### Required Parameters\n\n- `jobId` - UUID of the original\
+        \ video generation task\n    \n- `videoNo` - Video number to extend (0, 1,\
+        \ 2, or 3)\n    \n- `prompt` - Optional prompt to guide the extension (1-8192\
+        \ characters)\n    \n\n### Authentication\n\nRequires a valid API key passed\
+        \ in the `x-api-key` header.\n\n### Response\n\nReturns a task object. The\
+        \ extended video will be sent to your callback URL when complete (typically\
+        \ 3-5 minutes).\n\n### Use Cases\n\n- Create longer videos from initial 4-second\
+        \ generations\n    \n- Extend successful animations for more content\n   \
+        \ \n- Build sequential video narratives\n    \n- Generate longer social media\
+        \ content\n    \n- Create extended motion sequences\n    \n\n### Tips\n\n\
+        - Each extension adds 4 seconds to the video\n    \n- Can extend up to 4 times\
+        \ (maximum 20 seconds total: 4+4+4+4+4)\n    \n- Prompt helps guide what happens\
+        \ in the extended portion\n    \n- Extension quality depends on the source\
+        \ video's clarity and motion\n    \n- Works with both text-generated and image-animated\
+        \ videos"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: b24ffa07-7b76-49a2-963e-f6c527f7cec7
+                videoNo: 0
+                prompt: Continue with more dynamic movement and effects
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Extend Video
+      tags:
+      - Video
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/video-upscale:
+    post:
+      description: "## Enhance Video Resolution and Quality\n\nUpscale generated videos\
+        \ to higher resolution with AI-powered quality enhancement. Improves clarity,\
+        \ detail, and overall visual quality.\n\n### How it Works\n\nSelect a previously\
+        \ generated video and the API processes each frame to increase resolution\
+        \ and enhance quality while maintaining motion smoothness and temporal consistency.\n\
+        \n### Required Parameters\n\n- `jobId` - UUID of the original video generation\
+        \ task\n    \n- `videoNo` - Video number to upscale (0, 1, 2, or 3)\n    \n\
+        \n### Authentication\n\nRequires a valid API key passed in the `x-api-key`\
+        \ header.\n\n### Response\n\nReturns a task object. The upscaled video will\
+        \ be sent to your callback URL when complete (typically 4-6 minutes).\n\n\
+        ### Use Cases\n\n- Prepare videos for high-resolution displays\n    \n- Enhance\
+        \ quality of draft-quality generations\n    \n- Create production-ready video\
+        \ assets\n    \n- Improve detail and clarity for professional use\n    \n\
+        - Upgrade videos for client presentations\n    \n\n### Tips\n\n- Significantly\
+        \ increases processing time due to frame-by-frame enhancement\n    \n- Best\
+        \ applied after you've selected your preferred video variation\n    \n- Cannot\
+        \ be reversed - always keep original lower-resolution version\n    \n- Quality\
+        \ improvement is substantial for text clarity and fine details\n    \n- Consider\
+        \ workflow: generate/extend first, upscale final selection"
+      parameters:
+      - example: "{{x_api_key}}"
+        explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                jobId: b24ffa07-7b76-49a2-963e-f6c527f7cec7
+                videoNo: 0
+                callback: https://webhook.site/c98cb890-fb92-439f-8d60-42c8a51eb52d
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
+          description: Successful response
+      summary: Video Upscale
+      tags:
+      - Video
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/account/balance:
+    get:
+      description: "## Retrieve Account Balance and Credit Information\n\nGet your\
+        \ current account balance, available credits, points, and low balance alert\
+        \ settings. Essential for monitoring usage and managing costs.\n\n### How\
+        \ it Works\n\nMake a GET request to retrieve current account status. The API\
+        \ returns real-time balance information, available credits for API usage,\
+        \ and alert settings.\n\n### Required Parameters\n\nNone - this is a simple\
+        \ GET request with authentication\n\n### Authentication\n\nRequires a valid\
+        \ API key passed in the `x-api-key` header (note: some implementations use\
+        \ `X-API-KEY`).\n\n### Response\n\nReturns account balance information including:\n\
+        \n- `account_id` - Your account identifier\n    \n- `balance_usd` - Current\
+        \ balance in USD\n    \n- `available_credits` - Credits available for API\
+        \ usage\n    \n- `available_points` - Points balance\n    \n- `alert_threshold`\
+        \ - Low balance alert threshold (USD)\n    \n- `low_balance_alert` - Whether\
+        \ low balance alert is triggered\n    \n- `updated_at` - Last update timestamp\n\
+        \    \n\n### Use Cases\n\n- Monitor remaining credits before large batch operations\n\
+        \    \n- Set up automated balance monitoring in applications\n    \n- Verify\
+        \ successful credit purchases or additions\n    \n- Track usage and spending\
+        \ over time\n    \n- Implement low-balance warnings in applications\n    \n\
+        \n### Tips\n\n- Check balance before large batch operations to avoid interruptions\n\
+        \    \n- Balance is in USD, credits are usage tokens\n    \n- Low balance\
+        \ alert threshold can be configured in dashboard\n    \n- Updated in real-time\
+        \ - reflects immediate usage\n    \n- Use for cost monitoring and budget management"
+      parameters:
+      - explode: false
+        in: header
+        name: x-api-key
+        required: false
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalanceResponse"
+          description: Balance retrieved successfully
+      summary: get account balance
+      tags:
+      - account management
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    BalanceResponse:
+      example:
+        code: 200
+        data:
+          account_id: 52
+          updated_at: 2026-01-13T10:33:56.473007403Z
+          available_credits: 3000
+          balance_usd: 4.068
+          alert_threshold: 10
+          low_balance_alert: false
+          available_points: 1068
+        message: success
+      properties:
+        code:
+          description: Response status code
+          example: 200
+          type: integer
+        message:
+          description: Response message
+          example: success
+          type: string
+        data:
+          $ref: "#/components/schemas/BalanceResponseData"
+      type: object
+    BalanceResponseData:
+      example:
+        account_id: 52
+        updated_at: 2026-01-13T10:33:56.473007403Z
+        available_credits: 3000
+        balance_usd: 4.068
+        alert_threshold: 10
+        low_balance_alert: false
+        available_points: 1068
+      properties:
+        account_id:
+          description: Account identifier
+          example: 52
+          type: integer
+        balance_usd:
+          description: Current balance in USD
+          example: 4.068
+          format: float
+          type: number
+        available_credits:
+          description: Available credits for API usage
+          example: 3000
+          type: integer
+        available_points:
+          description: Available points
+          example: 1068
+          type: integer
+        alert_threshold:
+          description: Low balance alert threshold in USD
+          example: 10
+          type: integer
+        low_balance_alert:
+          description: Whether low balance alert is triggered
+          example: false
+          type: boolean
+        updated_at:
+          description: Last update timestamp
+          example: 2026-01-13T10:33:56.473007403Z
+          format: date-time
+          type: string
+      type: object
+    TaskResponse:
+      description: Standard async task response for image/video generation operations
+      example:
+        output:
+          seed: seed
+          image_url: image_url
+          image_urls:
+          - image_urls
+          - image_urls
+        job_id: 7dea6cc5-5952-4f82-a906-1ed2328bc1c5
+        meta:
+          usage:
+            frozen: 0
+            consume: 6
+            type: type
+          created_at: 2000-01-23T04:56:07.000+00:00
+        model: midjourney
+        task_type: diffusion
+        config:
+          service_mode: service_mode
+          webhook_config:
+            endpoint: endpoint
+            secret: secret
+        status: pending
+      properties:
+        job_id:
+          description: Unique identifier for the created job
+          example: 7dea6cc5-5952-4f82-a906-1ed2328bc1c5
+          type: string
+        model:
+          description: AI model used
+          example: midjourney
+          type: string
+        task_type:
+          description: Type of task
+          example: diffusion
+          type: string
+        status:
+          description: Initial status (typically 'pending')
+          example: pending
+          type: string
+        config:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_config"
+        output:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_output"
+        meta:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta"
+      type: object
+    _api_v1_diffusion_post_200_response_config_webhook_config:
+      example:
+        endpoint: endpoint
+        secret: secret
+      properties:
+        endpoint:
+          type: string
+        secret:
+          type: string
+      type: object
+    _api_v1_diffusion_post_200_response_config:
+      example:
+        service_mode: service_mode
+        webhook_config:
+          endpoint: endpoint
+          secret: secret
+      properties:
+        service_mode:
+          type: string
+        webhook_config:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_config_webhook_config"
+      type: object
+    _api_v1_diffusion_post_200_response_output:
+      example:
+        seed: seed
+        image_url: image_url
+        image_urls:
+        - image_urls
+        - image_urls
+      properties:
+        image_url:
+          type: string
+        image_urls:
+          items:
+            type: string
+          nullable: true
+          type: array
+        seed:
+          type: string
+      type: object
+    _api_v1_diffusion_post_200_response_meta_usage:
+      example:
+        frozen: 0
+        consume: 6
+        type: type
+      properties:
+        type:
+          type: string
+        frozen:
+          type: integer
+        consume:
+          type: integer
+      type: object
+    _api_v1_diffusion_post_200_response_meta:
+      example:
+        usage:
+          frozen: 0
+          consume: 6
+          type: type
+        created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        created_at:
+          format: date-time
+          type: string
+        usage:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta_usage"
+      type: object
+    _api_v1_diffusion_post_200_response:
+      example:
+        output:
+          seed: seed
+          image_url: image_url
+          image_urls:
+          - image_urls
+          - image_urls
+        job_id: job_id
+        meta:
+          usage:
+            frozen: 0
+            consume: 6
+            type: type
+          created_at: 2000-01-23T04:56:07.000+00:00
+        model: model
+        task_type: task_type
+        config:
+          service_mode: service_mode
+          webhook_config:
+            endpoint: endpoint
+            secret: secret
+        status: status
+      properties:
+        job_id:
+          description: Unique identifier for the created job
+          type: string
+        model:
+          description: "AI model used (e.g., midjourney)"
+          type: string
+        task_type:
+          description: "Type of task (e.g., diffusion)"
+          type: string
+        status:
+          description: Initial status (typically 'pending')
+          type: string
+        config:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_config"
+        output:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_output"
+        meta:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta"
+      type: object
+    _api_v1_pan_post_200_response:
+      example:
+        output:
+          seed: seed
+          image_url: image_url
+          image_urls:
+          - image_urls
+          - image_urls
+        job_id: job_id
+        meta:
+          usage:
+            frozen: 0
+            consume: 6
+            type: type
+          created_at: 2000-01-23T04:56:07.000+00:00
+        model: model
+        task_type: task_type
+        config:
+          service_mode: service_mode
+          webhook_config:
+            endpoint: endpoint
+            secret: secret
+        status: status
+      properties:
+        job_id:
+          description: Unique identifier for the created pan job
+          type: string
+        model:
+          description: "AI model used (e.g., midjourney)"
+          type: string
+        task_type:
+          description: "Type of task (e.g., pan)"
+          type: string
+        status:
+          description: Initial status (typically 'pending')
+          type: string
+        config:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_config"
+        output:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_output"
+        meta:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta"
+      type: object
+    _api_v1_edit_post_200_response:
+      example:
+        output:
+          seed: seed
+          image_url: image_url
+          image_urls:
+          - image_urls
+          - image_urls
+        job_id: job_id
+        meta:
+          usage:
+            frozen: 0
+            consume: 6
+            type: type
+          created_at: 2000-01-23T04:56:07.000+00:00
+        model: model
+        task_type: task_type
+        config:
+          service_mode: service_mode
+          webhook_config:
+            endpoint: endpoint
+            secret: secret
+        status: status
+      properties:
+        job_id:
+          description: Unique identifier for the created edit job
+          type: string
+        model:
+          description: "AI model used (e.g., midjourney)"
+          type: string
+        task_type:
+          description: "Type of task (e.g., edit)"
+          type: string
+        status:
+          description: Initial status (typically 'pending')
+          type: string
+        config:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_config"
+        output:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_output"
+        meta:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta"
+      type: object
+    _api_v1_job__job_id__get_200_response_output_available_actions:
+      example:
+        inpaint:
+        - 6
+        - 6
+        edit:
+        - 0
+        - 0
+        outpaint:
+        - 1
+        - 1
+        upscale:
+        - 2
+        - 2
+        pan:
+        - 5
+        - 5
+        reroll: true
+        variation:
+        - 7
+        - 7
+        remix:
+        - 5
+        - 5
+      properties:
+        edit:
+          items:
+            type: integer
+          type: array
+        inpaint:
+          items:
+            type: integer
+          type: array
+        outpaint:
+          items:
+            type: integer
+          type: array
+        pan:
+          items:
+            type: integer
+          type: array
+        remix:
+          items:
+            type: integer
+          type: array
+        reroll:
+          type: boolean
+        upscale:
+          items:
+            type: integer
+          type: array
+        variation:
+          items:
+            type: integer
+          type: array
+      type: object
+    _api_v1_job__job_id__get_200_response_output:
+      example:
+        seed: seed
+        available_actions:
+          inpaint:
+          - 6
+          - 6
+          edit:
+          - 0
+          - 0
+          outpaint:
+          - 1
+          - 1
+          upscale:
+          - 2
+          - 2
+          pan:
+          - 5
+          - 5
+          reroll: true
+          variation:
+          - 7
+          - 7
+          remix:
+          - 5
+          - 5
+        image_url: image_url
+        image_urls:
+        - image_urls
+        - image_urls
+      properties:
+        image_url:
+          type: string
+        image_urls:
+          items:
+            type: string
+          nullable: true
+          type: array
+        seed:
+          type: string
+        available_actions:
+          $ref: "#/components/schemas/_api_v1_job__job_id__get_200_response_output_available_actions"
+      type: object
+    _api_v1_job__job_id__get_200_response_meta:
+      example:
+        usage:
+          frozen: 0
+          consume: 6
+          type: type
+        created_at: 2000-01-23T04:56:07.000+00:00
+        started_at: 2000-01-23T04:56:07.000+00:00
+        ended_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        created_at:
+          format: date-time
+          type: string
+        started_at:
+          format: date-time
+          type: string
+        ended_at:
+          format: date-time
+          type: string
+        usage:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta_usage"
+      type: object
+    _api_v1_job__job_id__get_200_response_error:
+      example:
+        code: 9
+        raw_message: raw_message
+        detail: "{}"
+        message: message
+      properties:
+        code:
+          type: integer
+        raw_message:
+          type: string
+        message:
+          type: string
+        detail:
+          nullable: true
+          type: object
+      type: object
+    _api_v1_job__job_id__get_200_response:
+      example:
+        output:
+          seed: seed
+          available_actions:
+            inpaint:
+            - 6
+            - 6
+            edit:
+            - 0
+            - 0
+            outpaint:
+            - 1
+            - 1
+            upscale:
+            - 2
+            - 2
+            pan:
+            - 5
+            - 5
+            reroll: true
+            variation:
+            - 7
+            - 7
+            remix:
+            - 5
+            - 5
+          image_url: image_url
+          image_urls:
+          - image_urls
+          - image_urls
+        input: "{}"
+        job_id: job_id
+        meta:
+          usage:
+            frozen: 0
+            consume: 6
+            type: type
+          created_at: 2000-01-23T04:56:07.000+00:00
+          started_at: 2000-01-23T04:56:07.000+00:00
+          ended_at: 2000-01-23T04:56:07.000+00:00
+        model: model
+        detail: "{}"
+        task_type: task_type
+        error:
+          code: 9
+          raw_message: raw_message
+          detail: "{}"
+          message: message
+        config:
+          service_mode: service_mode
+          webhook_config:
+            endpoint: endpoint
+            secret: secret
+        logs:
+        - "{}"
+        - "{}"
+        status: status
+      properties:
+        job_id:
+          description: Unique identifier for the job
+          type: string
+        model:
+          description: "AI model used (e.g., midjourney)"
+          type: string
+        task_type:
+          description: "Type of task (e.g., diffusion)"
+          type: string
+        status:
+          description: "Current status (pending, staged, processing, completed, failed)"
+          type: string
+        config:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_config"
+        input:
+          description: Input parameters for the task
+          nullable: true
+          type: object
+        output:
+          $ref: "#/components/schemas/_api_v1_job__job_id__get_200_response_output"
+        meta:
+          $ref: "#/components/schemas/_api_v1_job__job_id__get_200_response_meta"
+        detail:
+          nullable: true
+          type: object
+        logs:
+          items:
+            type: object
+          type: array
+        error:
+          $ref: "#/components/schemas/_api_v1_job__job_id__get_200_response_error"
+      type: object
+

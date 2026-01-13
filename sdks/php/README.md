@@ -24,11 +24,11 @@ To install the bindings via [Composer](https://getcomposer.org/), add the follow
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/legnext/midjourney-sdk-php.git"
+      "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
     }
   ],
   "require": {
-    "legnext/midjourney-sdk-php": "*@dev"
+    "GIT_USER_ID/GIT_REPO_ID": "*@dev"
   }
 }
 ```
@@ -55,7 +55,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\AccountManagementApi(
+$apiInstance = new OpenAPI\Client\Api\AccountManagementApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
@@ -63,7 +63,8 @@ $apiInstance = new Legnext\Api\AccountManagementApi(
 $x_api_key = 'x_api_key_example'; // string
 
 try {
-    $apiInstance->apiAccountBalanceGet($x_api_key);
+    $result = $apiInstance->apiAccountBalanceGet($x_api_key);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AccountManagementApi->apiAccountBalanceGet: ', $e->getMessage(), PHP_EOL;
 }
@@ -109,6 +110,9 @@ Class | Method | HTTP request | Description
 - [ApiV1JobJobIdGet200ResponseOutput](docs/Model/ApiV1JobJobIdGet200ResponseOutput.md)
 - [ApiV1JobJobIdGet200ResponseOutputAvailableActions](docs/Model/ApiV1JobJobIdGet200ResponseOutputAvailableActions.md)
 - [ApiV1PanPost200Response](docs/Model/ApiV1PanPost200Response.md)
+- [BalanceResponse](docs/Model/BalanceResponse.md)
+- [BalanceResponseData](docs/Model/BalanceResponseData.md)
+- [TaskResponse](docs/Model/TaskResponse.md)
 
 ## Authorization
 Endpoints do not require authorization.

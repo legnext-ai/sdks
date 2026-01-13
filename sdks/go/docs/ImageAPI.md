@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 ## ApiV1BlendPost
 
-> ApiV1BlendPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1BlendPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Blend
 
@@ -41,16 +41,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := "body_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.ImageAPI.ApiV1BlendPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1BlendPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1BlendPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1BlendPost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImageAPI.ApiV1BlendPost`: %v\n", resp)
 }
 ```
 
@@ -66,12 +67,11 @@ Other parameters are passed through a pointer to a apiApiV1BlendPostRequest stru
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **string** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -89,7 +89,7 @@ No authorization required
 
 ## ApiV1DescribePost
 
-> ApiV1DescribePost(ctx).XApiKey(xApiKey).Body(body).Execute()
+> TaskResponse ApiV1DescribePost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Describe
 
@@ -113,11 +113,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.ImageAPI.ApiV1DescribePost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1DescribePost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1DescribePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1DescribePost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImageAPI.ApiV1DescribePost`: %v\n", resp)
 }
 ```
 
@@ -137,7 +139,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -155,7 +157,7 @@ No authorization required
 
 ## ApiV1DiffusionPost
 
-> ApiV1DiffusionPost200Response ApiV1DiffusionPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> ApiV1DiffusionPost200Response ApiV1DiffusionPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Diffusion
 
@@ -175,12 +177,11 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ImageAPI.ApiV1DiffusionPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1DiffusionPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1DiffusionPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -202,7 +203,6 @@ Other parameters are passed through a pointer to a apiApiV1DiffusionPostRequest 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
@@ -225,7 +225,7 @@ No authorization required
 
 ## ApiV1EditPost
 
-> ApiV1EditPost200Response ApiV1EditPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> ApiV1EditPost200Response ApiV1EditPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Edit
 
@@ -245,12 +245,11 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ImageAPI.ApiV1EditPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1EditPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1EditPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -272,7 +271,6 @@ Other parameters are passed through a pointer to a apiApiV1EditPostRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
@@ -295,7 +293,7 @@ No authorization required
 
 ## ApiV1InpaintPost
 
-> ApiV1InpaintPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1InpaintPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Inpaint
 
@@ -315,16 +313,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.ImageAPI.ApiV1InpaintPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1InpaintPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1InpaintPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1InpaintPost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImageAPI.ApiV1InpaintPost`: %v\n", resp)
 }
 ```
 
@@ -340,12 +339,11 @@ Other parameters are passed through a pointer to a apiApiV1InpaintPostRequest st
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -363,7 +361,7 @@ No authorization required
 
 ## ApiV1OutpaintPost
 
-> ApiV1OutpaintPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1OutpaintPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Outpaint
 
@@ -383,16 +381,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.ImageAPI.ApiV1OutpaintPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1OutpaintPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1OutpaintPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1OutpaintPost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImageAPI.ApiV1OutpaintPost`: %v\n", resp)
 }
 ```
 
@@ -408,12 +407,11 @@ Other parameters are passed through a pointer to a apiApiV1OutpaintPostRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -431,7 +429,7 @@ No authorization required
 
 ## ApiV1PanPost
 
-> ApiV1PanPost200Response ApiV1PanPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> ApiV1PanPost200Response ApiV1PanPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Pan
 
@@ -451,12 +449,11 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ImageAPI.ApiV1PanPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1PanPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1PanPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -478,7 +475,6 @@ Other parameters are passed through a pointer to a apiApiV1PanPostRequest struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
@@ -501,7 +497,7 @@ No authorization required
 
 ## ApiV1RemixPost
 
-> ApiV1RemixPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1RemixPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Remix
 
@@ -521,16 +517,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.ImageAPI.ApiV1RemixPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1RemixPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1RemixPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1RemixPost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImageAPI.ApiV1RemixPost`: %v\n", resp)
 }
 ```
 
@@ -546,12 +543,11 @@ Other parameters are passed through a pointer to a apiApiV1RemixPostRequest stru
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -569,7 +565,7 @@ No authorization required
 
 ## ApiV1RerollPost
 
-> ApiV1RerollPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1RerollPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Reroll
 
@@ -589,16 +585,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.ImageAPI.ApiV1RerollPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1RerollPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1RerollPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1RerollPost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImageAPI.ApiV1RerollPost`: %v\n", resp)
 }
 ```
 
@@ -614,12 +611,11 @@ Other parameters are passed through a pointer to a apiApiV1RerollPostRequest str
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -637,7 +633,7 @@ No authorization required
 
 ## ApiV1ShortenPost
 
-> ApiV1ShortenPost(ctx).XApiKey(xApiKey).Body(body).Execute()
+> TaskResponse ApiV1ShortenPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Shorten
 
@@ -661,11 +657,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.ImageAPI.ApiV1ShortenPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1ShortenPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1ShortenPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1ShortenPost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImageAPI.ApiV1ShortenPost`: %v\n", resp)
 }
 ```
 
@@ -685,7 +683,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -703,7 +701,7 @@ No authorization required
 
 ## ApiV1UpscalePost
 
-> ApiV1UpscalePost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1UpscalePost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Upscale
 
@@ -723,16 +721,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.ImageAPI.ApiV1UpscalePost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1UpscalePost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1UpscalePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1UpscalePost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImageAPI.ApiV1UpscalePost`: %v\n", resp)
 }
 ```
 
@@ -748,12 +747,11 @@ Other parameters are passed through a pointer to a apiApiV1UpscalePostRequest st
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 
@@ -771,7 +769,7 @@ No authorization required
 
 ## ApiV1VariationPost
 
-> ApiV1VariationPost(ctx).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+> TaskResponse ApiV1VariationPost(ctx).XApiKey(xApiKey).Body(body).Execute()
 
 Variation
 
@@ -791,16 +789,17 @@ import (
 
 func main() {
 	xApiKey := "{{x_api_key}}" // string |  (optional)
-	contentType := "application/json" // string |  (optional)
 	body := map[string]interface{}{ ... } // map[string]interface{} |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.ImageAPI.ApiV1VariationPost(context.Background()).XApiKey(xApiKey).ContentType(contentType).Body(body).Execute()
+	resp, r, err := apiClient.ImageAPI.ApiV1VariationPost(context.Background()).XApiKey(xApiKey).Body(body).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ImageAPI.ApiV1VariationPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiV1VariationPost`: TaskResponse
+	fmt.Fprintf(os.Stdout, "Response from `ImageAPI.ApiV1VariationPost`: %v\n", resp)
 }
 ```
 
@@ -816,12 +815,11 @@ Other parameters are passed through a pointer to a apiApiV1VariationPostRequest 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xApiKey** | **string** |  | 
- **contentType** | **string** |  | 
  **body** | **map[string]interface{}** |  | 
 
 ### Return type
 
- (empty response body)
+[**TaskResponse**](TaskResponse.md)
 
 ### Authorization
 

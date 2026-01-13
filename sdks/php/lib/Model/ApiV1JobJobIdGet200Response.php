@@ -5,7 +5,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -26,16 +26,16 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext\Model;
+namespace OpenAPI\Client\Model;
 
 use \ArrayAccess;
-use \Legnext\ObjectSerializer;
+use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * ApiV1JobJobIdGet200Response Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
@@ -61,13 +61,13 @@ class ApiV1JobJobIdGet200Response implements ModelInterface, ArrayAccess, \JsonS
         'model' => 'string',
         'task_type' => 'string',
         'status' => 'string',
-        'config' => '\Legnext\Model\ApiV1DiffusionPost200ResponseConfig',
+        'config' => '\OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseConfig',
         'input' => 'object',
-        'output' => '\Legnext\Model\ApiV1JobJobIdGet200ResponseOutput',
-        'meta' => '\Legnext\Model\ApiV1JobJobIdGet200ResponseMeta',
+        'output' => '\OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseOutput',
+        'meta' => '\OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseMeta',
         'detail' => 'object',
         'logs' => 'object[]',
-        'error' => '\Legnext\Model\ApiV1JobJobIdGet200ResponseError'
+        'error' => '\OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseError'
     ];
 
     /**
@@ -470,7 +470,7 @@ class ApiV1JobJobIdGet200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Gets config
      *
-     * @return \Legnext\Model\ApiV1DiffusionPost200ResponseConfig|null
+     * @return \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseConfig|null
      */
     public function getConfig()
     {
@@ -480,7 +480,7 @@ class ApiV1JobJobIdGet200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Sets config
      *
-     * @param \Legnext\Model\ApiV1DiffusionPost200ResponseConfig|null $config config
+     * @param \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseConfig|null $config config
      *
      * @return self
      */
@@ -531,7 +531,7 @@ class ApiV1JobJobIdGet200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Gets output
      *
-     * @return \Legnext\Model\ApiV1JobJobIdGet200ResponseOutput|null
+     * @return \OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseOutput|null
      */
     public function getOutput()
     {
@@ -541,7 +541,7 @@ class ApiV1JobJobIdGet200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Sets output
      *
-     * @param \Legnext\Model\ApiV1JobJobIdGet200ResponseOutput|null $output output
+     * @param \OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseOutput|null $output output
      *
      * @return self
      */
@@ -558,7 +558,7 @@ class ApiV1JobJobIdGet200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Gets meta
      *
-     * @return \Legnext\Model\ApiV1JobJobIdGet200ResponseMeta|null
+     * @return \OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseMeta|null
      */
     public function getMeta()
     {
@@ -568,7 +568,7 @@ class ApiV1JobJobIdGet200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Sets meta
      *
-     * @param \Legnext\Model\ApiV1JobJobIdGet200ResponseMeta|null $meta meta
+     * @param \OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseMeta|null $meta meta
      *
      * @return self
      */
@@ -646,7 +646,7 @@ class ApiV1JobJobIdGet200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Gets error
      *
-     * @return \Legnext\Model\ApiV1JobJobIdGet200ResponseError|null
+     * @return \OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseError|null
      */
     public function getError()
     {
@@ -656,7 +656,7 @@ class ApiV1JobJobIdGet200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Sets error
      *
-     * @param \Legnext\Model\ApiV1JobJobIdGet200ResponseError|null $error error
+     * @param \OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseError|null $error error
      *
      * @return self
      */

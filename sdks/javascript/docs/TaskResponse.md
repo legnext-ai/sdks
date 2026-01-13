@@ -1,26 +1,23 @@
 # TaskResponse
 
+Standard async task response for image/video generation operations
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**job_id** | **string** | Unique job identifier | [default to undefined]
-**model** | **string** | Model used for processing | [default to undefined]
-**task_type** | [**TaskType**](TaskType.md) |  | [default to undefined]
-**status** | [**JobStatus**](JobStatus.md) |  | [default to undefined]
-**config** | [**Config**](Config.md) |  | [optional] [default to undefined]
-**input** | **object** | Input parameters (structure varies by task type) | [optional] [default to undefined]
-**output** | [**ImageOutput**](ImageOutput.md) |  | [optional] [default to undefined]
-**meta** | [**Meta**](Meta.md) |  | [optional] [default to undefined]
-**detail** | **object** | Additional task details | [optional] [default to undefined]
-**logs** | **Array&lt;string&gt;** | Processing logs | [optional] [default to undefined]
-**error** | **Error** |  | [optional] [default to undefined]
+**job_id** | **string** | Unique identifier for the created job | [optional] [default to undefined]
+**model** | **string** | AI model used | [optional] [default to undefined]
+**task_type** | **string** | Type of task | [optional] [default to undefined]
+**status** | **string** | Initial status (typically \&#39;pending\&#39;) | [optional] [default to undefined]
+**config** | [**ApiV1DiffusionPost200ResponseConfig**](ApiV1DiffusionPost200ResponseConfig.md) |  | [optional] [default to undefined]
+**output** | [**ApiV1DiffusionPost200ResponseOutput**](ApiV1DiffusionPost200ResponseOutput.md) |  | [optional] [default to undefined]
+**meta** | [**ApiV1DiffusionPost200ResponseMeta**](ApiV1DiffusionPost200ResponseMeta.md) |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { TaskResponse } from '@legnext/midjourney-sdk';
+import { TaskResponse } from './api';
 
 const instance: TaskResponse = {
     job_id,
@@ -28,12 +25,8 @@ const instance: TaskResponse = {
     task_type,
     status,
     config,
-    input,
     output,
     meta,
-    detail,
-    logs,
-    error,
 };
 ```
 

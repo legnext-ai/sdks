@@ -5,7 +5,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -26,16 +26,16 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext\Model;
+namespace OpenAPI\Client\Model;
 
 use \ArrayAccess;
-use \Legnext\ObjectSerializer;
+use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * ApiV1JobJobIdGet200ResponseOutput Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
@@ -60,7 +60,7 @@ class ApiV1JobJobIdGet200ResponseOutput implements ModelInterface, ArrayAccess, 
         'image_url' => 'string',
         'image_urls' => 'string[]',
         'seed' => 'string',
-        'available_actions' => '\Legnext\Model\ApiV1JobJobIdGet200ResponseOutputAvailableActions'
+        'available_actions' => '\OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseOutputAvailableActions'
     ];
 
     /**
@@ -401,7 +401,7 @@ class ApiV1JobJobIdGet200ResponseOutput implements ModelInterface, ArrayAccess, 
     /**
      * Gets available_actions
      *
-     * @return \Legnext\Model\ApiV1JobJobIdGet200ResponseOutputAvailableActions|null
+     * @return \OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseOutputAvailableActions|null
      */
     public function getAvailableActions()
     {
@@ -411,7 +411,7 @@ class ApiV1JobJobIdGet200ResponseOutput implements ModelInterface, ArrayAccess, 
     /**
      * Sets available_actions
      *
-     * @param \Legnext\Model\ApiV1JobJobIdGet200ResponseOutputAvailableActions|null $available_actions available_actions
+     * @param \OpenAPI\Client\Model\ApiV1JobJobIdGet200ResponseOutputAvailableActions|null $available_actions available_actions
      *
      * @return self
      */

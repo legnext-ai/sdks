@@ -5,7 +5,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -26,16 +26,16 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext\Model;
+namespace OpenAPI\Client\Model;
 
 use \ArrayAccess;
-use \Legnext\ObjectSerializer;
+use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * ApiV1DiffusionPost200ResponseMetaUsage Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>

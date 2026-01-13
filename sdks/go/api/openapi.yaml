@@ -70,14 +70,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -128,14 +120,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -149,7 +133,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Upscale
       tags:
@@ -183,14 +169,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -202,7 +180,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Reroll
       tags:
@@ -241,14 +221,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -263,7 +235,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Variation
       tags:
@@ -304,14 +278,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -338,7 +304,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Inpaint
       tags:
@@ -376,14 +344,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -398,7 +358,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Outpaint
       tags:
@@ -434,14 +396,6 @@ paths:
         explode: false
         in: header
         name: x-api-key
-        required: false
-        schema:
-          type: string
-        style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
         required: false
         schema:
           type: string
@@ -502,14 +456,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -524,7 +470,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Remix
       tags:
@@ -563,14 +511,6 @@ paths:
         explode: false
         in: header
         name: x-api-key
-        required: false
-        schema:
-          type: string
-        style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
         required: false
         schema:
           type: string
@@ -646,7 +586,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Shorten
       tags:
@@ -693,7 +635,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Describe
       tags:
@@ -729,14 +673,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           '*/*':
@@ -750,7 +686,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Blend
       tags:
@@ -847,14 +785,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -868,7 +798,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Video Diffusion
       tags:
@@ -905,14 +837,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -926,7 +850,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Extend Video
       tags:
@@ -961,14 +887,6 @@ paths:
         schema:
           type: string
         style: simple
-      - example: application/json
-        explode: false
-        in: header
-        name: Content-Type
-        required: false
-        schema:
-          type: string
-        style: simple
       requestBody:
         content:
           application/json:
@@ -981,7 +899,9 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskResponse"
           description: Successful response
       summary: Video Upscale
       tags:
@@ -1021,14 +941,82 @@ paths:
       responses:
         "200":
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalanceResponse"
+          description: Balance retrieved successfully
       summary: get account balance
       tags:
       - account management
 components:
   schemas:
-    _api_v1_edit_post_200_response:
+    BalanceResponse:
+      example:
+        code: 200
+        data:
+          account_id: 52
+          updated_at: 2026-01-13T10:33:56.473007403Z
+          available_credits: 3000
+          balance_usd: 4.068
+          alert_threshold: 10
+          low_balance_alert: false
+          available_points: 1068
+        message: success
+      properties:
+        code:
+          description: Response status code
+          example: 200
+          type: integer
+        message:
+          description: Response message
+          example: success
+          type: string
+        data:
+          $ref: "#/components/schemas/BalanceResponseData"
+      type: object
+    BalanceResponseData:
+      example:
+        account_id: 52
+        updated_at: 2026-01-13T10:33:56.473007403Z
+        available_credits: 3000
+        balance_usd: 4.068
+        alert_threshold: 10
+        low_balance_alert: false
+        available_points: 1068
+      properties:
+        account_id:
+          description: Account identifier
+          example: 52
+          type: integer
+        balance_usd:
+          description: Current balance in USD
+          example: 4.068
+          format: float
+          type: number
+        available_credits:
+          description: Available credits for API usage
+          example: 3000
+          type: integer
+        available_points:
+          description: Available points
+          example: 1068
+          type: integer
+        alert_threshold:
+          description: Low balance alert threshold in USD
+          example: 10
+          type: integer
+        low_balance_alert:
+          description: Whether low balance alert is triggered
+          example: false
+          type: boolean
+        updated_at:
+          description: Last update timestamp
+          example: 2026-01-13T10:33:56.473007403Z
+          format: date-time
+          type: string
+      type: object
+    TaskResponse:
+      description: Standard async task response for image/video generation operations
       example:
         output:
           seed: seed
@@ -1036,33 +1024,37 @@ components:
           image_urls:
           - image_urls
           - image_urls
-        job_id: job_id
+        job_id: 7dea6cc5-5952-4f82-a906-1ed2328bc1c5
         meta:
           usage:
             frozen: 0
             consume: 6
             type: type
           created_at: 2000-01-23T04:56:07.000+00:00
-        model: model
-        task_type: task_type
+        model: midjourney
+        task_type: diffusion
         config:
           service_mode: service_mode
           webhook_config:
             endpoint: endpoint
             secret: secret
-        status: status
+        status: pending
       properties:
         job_id:
-          description: Unique identifier for the created edit job
+          description: Unique identifier for the created job
+          example: 7dea6cc5-5952-4f82-a906-1ed2328bc1c5
           type: string
         model:
-          description: "AI model used (e.g., midjourney)"
+          description: AI model used
+          example: midjourney
           type: string
         task_type:
-          description: "Type of task (e.g., edit)"
+          description: Type of task
+          example: diffusion
           type: string
         status:
           description: Initial status (typically 'pending')
+          example: pending
           type: string
         config:
           $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_config"
@@ -1070,6 +1062,16 @@ components:
           $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_output"
         meta:
           $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta"
+      type: object
+    _api_v1_diffusion_post_200_response_config_webhook_config:
+      example:
+        endpoint: endpoint
+        secret: secret
+      properties:
+        endpoint:
+          type: string
+        secret:
+          type: string
       type: object
     _api_v1_diffusion_post_200_response_config:
       example:
@@ -1083,6 +1085,24 @@ components:
         webhook_config:
           $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_config_webhook_config"
       type: object
+    _api_v1_diffusion_post_200_response_output:
+      example:
+        seed: seed
+        image_url: image_url
+        image_urls:
+        - image_urls
+        - image_urls
+      properties:
+        image_url:
+          type: string
+        image_urls:
+          items:
+            type: string
+          nullable: true
+          type: array
+        seed:
+          type: string
+      type: object
     _api_v1_diffusion_post_200_response_meta_usage:
       example:
         frozen: 0
@@ -1095,6 +1115,20 @@ components:
           type: integer
         consume:
           type: integer
+      type: object
+    _api_v1_diffusion_post_200_response_meta:
+      example:
+        usage:
+          frozen: 0
+          consume: 6
+          type: type
+        created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        created_at:
+          format: date-time
+          type: string
+        usage:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta_usage"
       type: object
     _api_v1_diffusion_post_200_response:
       example:
@@ -1182,6 +1216,105 @@ components:
         meta:
           $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta"
       type: object
+    _api_v1_edit_post_200_response:
+      example:
+        output:
+          seed: seed
+          image_url: image_url
+          image_urls:
+          - image_urls
+          - image_urls
+        job_id: job_id
+        meta:
+          usage:
+            frozen: 0
+            consume: 6
+            type: type
+          created_at: 2000-01-23T04:56:07.000+00:00
+        model: model
+        task_type: task_type
+        config:
+          service_mode: service_mode
+          webhook_config:
+            endpoint: endpoint
+            secret: secret
+        status: status
+      properties:
+        job_id:
+          description: Unique identifier for the created edit job
+          type: string
+        model:
+          description: "AI model used (e.g., midjourney)"
+          type: string
+        task_type:
+          description: "Type of task (e.g., edit)"
+          type: string
+        status:
+          description: Initial status (typically 'pending')
+          type: string
+        config:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_config"
+        output:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_output"
+        meta:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta"
+      type: object
+    _api_v1_job__job_id__get_200_response_output_available_actions:
+      example:
+        inpaint:
+        - 6
+        - 6
+        edit:
+        - 0
+        - 0
+        outpaint:
+        - 1
+        - 1
+        upscale:
+        - 2
+        - 2
+        pan:
+        - 5
+        - 5
+        reroll: true
+        variation:
+        - 7
+        - 7
+        remix:
+        - 5
+        - 5
+      properties:
+        edit:
+          items:
+            type: integer
+          type: array
+        inpaint:
+          items:
+            type: integer
+          type: array
+        outpaint:
+          items:
+            type: integer
+          type: array
+        pan:
+          items:
+            type: integer
+          type: array
+        remix:
+          items:
+            type: integer
+          type: array
+        reroll:
+          type: boolean
+        upscale:
+          items:
+            type: integer
+          type: array
+        variation:
+          items:
+            type: integer
+          type: array
+      type: object
     _api_v1_job__job_id__get_200_response_output:
       example:
         seed: seed
@@ -1224,6 +1357,45 @@ components:
           type: string
         available_actions:
           $ref: "#/components/schemas/_api_v1_job__job_id__get_200_response_output_available_actions"
+      type: object
+    _api_v1_job__job_id__get_200_response_meta:
+      example:
+        usage:
+          frozen: 0
+          consume: 6
+          type: type
+        created_at: 2000-01-23T04:56:07.000+00:00
+        started_at: 2000-01-23T04:56:07.000+00:00
+        ended_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        created_at:
+          format: date-time
+          type: string
+        started_at:
+          format: date-time
+          type: string
+        ended_at:
+          format: date-time
+          type: string
+        usage:
+          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta_usage"
+      type: object
+    _api_v1_job__job_id__get_200_response_error:
+      example:
+        code: 9
+        raw_message: raw_message
+        detail: "{}"
+        message: message
+      properties:
+        code:
+          type: integer
+        raw_message:
+          type: string
+        message:
+          type: string
+        detail:
+          nullable: true
+          type: object
       type: object
     _api_v1_job__job_id__get_200_response:
       example:
@@ -1315,141 +1487,4 @@ components:
           type: array
         error:
           $ref: "#/components/schemas/_api_v1_job__job_id__get_200_response_error"
-      type: object
-    _api_v1_diffusion_post_200_response_config_webhook_config:
-      example:
-        endpoint: endpoint
-        secret: secret
-      properties:
-        endpoint:
-          type: string
-        secret:
-          type: string
-      type: object
-    _api_v1_job__job_id__get_200_response_output_available_actions:
-      example:
-        inpaint:
-        - 6
-        - 6
-        edit:
-        - 0
-        - 0
-        outpaint:
-        - 1
-        - 1
-        upscale:
-        - 2
-        - 2
-        pan:
-        - 5
-        - 5
-        reroll: true
-        variation:
-        - 7
-        - 7
-        remix:
-        - 5
-        - 5
-      properties:
-        edit:
-          items:
-            type: integer
-          type: array
-        inpaint:
-          items:
-            type: integer
-          type: array
-        outpaint:
-          items:
-            type: integer
-          type: array
-        pan:
-          items:
-            type: integer
-          type: array
-        remix:
-          items:
-            type: integer
-          type: array
-        reroll:
-          type: boolean
-        upscale:
-          items:
-            type: integer
-          type: array
-        variation:
-          items:
-            type: integer
-          type: array
-      type: object
-    _api_v1_diffusion_post_200_response_output:
-      example:
-        seed: seed
-        image_url: image_url
-        image_urls:
-        - image_urls
-        - image_urls
-      properties:
-        image_url:
-          type: string
-        image_urls:
-          items:
-            type: string
-          nullable: true
-          type: array
-        seed:
-          type: string
-      type: object
-    _api_v1_job__job_id__get_200_response_meta:
-      example:
-        usage:
-          frozen: 0
-          consume: 6
-          type: type
-        created_at: 2000-01-23T04:56:07.000+00:00
-        started_at: 2000-01-23T04:56:07.000+00:00
-        ended_at: 2000-01-23T04:56:07.000+00:00
-      properties:
-        created_at:
-          format: date-time
-          type: string
-        started_at:
-          format: date-time
-          type: string
-        ended_at:
-          format: date-time
-          type: string
-        usage:
-          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta_usage"
-      type: object
-    _api_v1_job__job_id__get_200_response_error:
-      example:
-        code: 9
-        raw_message: raw_message
-        detail: "{}"
-        message: message
-      properties:
-        code:
-          type: integer
-        raw_message:
-          type: string
-        message:
-          type: string
-        detail:
-          nullable: true
-          type: object
-      type: object
-    _api_v1_diffusion_post_200_response_meta:
-      example:
-        usage:
-          frozen: 0
-          consume: 6
-          type: type
-        created_at: 2000-01-23T04:56:07.000+00:00
-      properties:
-        created_at:
-          format: date-time
-          type: string
-        usage:
-          $ref: "#/components/schemas/_api_v1_diffusion_post_200_response_meta_usage"
       type: object

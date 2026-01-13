@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { BalanceResponseData } from '@legnext/midjourney-sdk';
+import { BalanceResponseData } from './api';
 
 const instance: BalanceResponseData = {
     account_id,

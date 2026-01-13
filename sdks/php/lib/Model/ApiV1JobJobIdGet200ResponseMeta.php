@@ -5,7 +5,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -26,16 +26,16 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext\Model;
+namespace OpenAPI\Client\Model;
 
 use \ArrayAccess;
-use \Legnext\ObjectSerializer;
+use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * ApiV1JobJobIdGet200ResponseMeta Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
@@ -60,7 +60,7 @@ class ApiV1JobJobIdGet200ResponseMeta implements ModelInterface, ArrayAccess, \J
         'created_at' => '\DateTime',
         'started_at' => '\DateTime',
         'ended_at' => '\DateTime',
-        'usage' => '\Legnext\Model\ApiV1DiffusionPost200ResponseMetaUsage'
+        'usage' => '\OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseMetaUsage'
     ];
 
     /**
@@ -394,7 +394,7 @@ class ApiV1JobJobIdGet200ResponseMeta implements ModelInterface, ArrayAccess, \J
     /**
      * Gets usage
      *
-     * @return \Legnext\Model\ApiV1DiffusionPost200ResponseMetaUsage|null
+     * @return \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseMetaUsage|null
      */
     public function getUsage()
     {
@@ -404,7 +404,7 @@ class ApiV1JobJobIdGet200ResponseMeta implements ModelInterface, ArrayAccess, \J
     /**
      * Sets usage
      *
-     * @param \Legnext\Model\ApiV1DiffusionPost200ResponseMetaUsage|null $usage usage
+     * @param \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseMetaUsage|null $usage usage
      *
      * @return self
      */

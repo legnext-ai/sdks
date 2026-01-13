@@ -18,7 +18,10 @@ docs/ApiV1JobJobIdGet200ResponseMeta.md
 docs/ApiV1JobJobIdGet200ResponseOutput.md
 docs/ApiV1JobJobIdGet200ResponseOutputAvailableActions.md
 docs/ApiV1PanPost200Response.md
+docs/BalanceResponse.md
+docs/BalanceResponseData.md
 docs/ImageApi.md
+docs/TaskResponse.md
 docs/VideoApi.md
 git_push.sh
 index.ts

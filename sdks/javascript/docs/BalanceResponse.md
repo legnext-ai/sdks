@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { BalanceResponse } from '@legnext/midjourney-sdk';
+import { BalanceResponse } from './api';
 
 const instance: BalanceResponse = {
     code,

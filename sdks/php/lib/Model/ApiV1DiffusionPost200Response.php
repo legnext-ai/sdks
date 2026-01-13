@@ -5,7 +5,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -26,16 +26,16 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext\Model;
+namespace OpenAPI\Client\Model;
 
 use \ArrayAccess;
-use \Legnext\ObjectSerializer;
+use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * ApiV1DiffusionPost200Response Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
@@ -61,9 +61,9 @@ class ApiV1DiffusionPost200Response implements ModelInterface, ArrayAccess, \Jso
         'model' => 'string',
         'task_type' => 'string',
         'status' => 'string',
-        'config' => '\Legnext\Model\ApiV1DiffusionPost200ResponseConfig',
-        'output' => '\Legnext\Model\ApiV1DiffusionPost200ResponseOutput',
-        'meta' => '\Legnext\Model\ApiV1DiffusionPost200ResponseMeta'
+        'config' => '\OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseConfig',
+        'output' => '\OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseOutput',
+        'meta' => '\OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseMeta'
     ];
 
     /**
@@ -442,7 +442,7 @@ class ApiV1DiffusionPost200Response implements ModelInterface, ArrayAccess, \Jso
     /**
      * Gets config
      *
-     * @return \Legnext\Model\ApiV1DiffusionPost200ResponseConfig|null
+     * @return \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseConfig|null
      */
     public function getConfig()
     {
@@ -452,7 +452,7 @@ class ApiV1DiffusionPost200Response implements ModelInterface, ArrayAccess, \Jso
     /**
      * Sets config
      *
-     * @param \Legnext\Model\ApiV1DiffusionPost200ResponseConfig|null $config config
+     * @param \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseConfig|null $config config
      *
      * @return self
      */
@@ -469,7 +469,7 @@ class ApiV1DiffusionPost200Response implements ModelInterface, ArrayAccess, \Jso
     /**
      * Gets output
      *
-     * @return \Legnext\Model\ApiV1DiffusionPost200ResponseOutput|null
+     * @return \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseOutput|null
      */
     public function getOutput()
     {
@@ -479,7 +479,7 @@ class ApiV1DiffusionPost200Response implements ModelInterface, ArrayAccess, \Jso
     /**
      * Sets output
      *
-     * @param \Legnext\Model\ApiV1DiffusionPost200ResponseOutput|null $output output
+     * @param \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseOutput|null $output output
      *
      * @return self
      */
@@ -496,7 +496,7 @@ class ApiV1DiffusionPost200Response implements ModelInterface, ArrayAccess, \Jso
     /**
      * Gets meta
      *
-     * @return \Legnext\Model\ApiV1DiffusionPost200ResponseMeta|null
+     * @return \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseMeta|null
      */
     public function getMeta()
     {
@@ -506,7 +506,7 @@ class ApiV1DiffusionPost200Response implements ModelInterface, ArrayAccess, \Jso
     /**
      * Sets meta
      *
-     * @param \Legnext\Model\ApiV1DiffusionPost200ResponseMeta|null $meta meta
+     * @param \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseMeta|null $meta meta
      *
      * @return self
      */

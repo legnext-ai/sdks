@@ -5,7 +5,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -26,16 +26,16 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext\Model;
+namespace OpenAPI\Client\Model;
 
 use \ArrayAccess;
-use \Legnext\ObjectSerializer;
+use \OpenAPI\Client\ObjectSerializer;
 
 /**
  * ApiV1DiffusionPost200ResponseConfig Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
@@ -58,7 +58,7 @@ class ApiV1DiffusionPost200ResponseConfig implements ModelInterface, ArrayAccess
       */
     protected static $openAPITypes = [
         'service_mode' => 'string',
-        'webhook_config' => '\Legnext\Model\ApiV1DiffusionPost200ResponseConfigWebhookConfig'
+        'webhook_config' => '\OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseConfigWebhookConfig'
     ];
 
     /**
@@ -326,7 +326,7 @@ class ApiV1DiffusionPost200ResponseConfig implements ModelInterface, ArrayAccess
     /**
      * Gets webhook_config
      *
-     * @return \Legnext\Model\ApiV1DiffusionPost200ResponseConfigWebhookConfig|null
+     * @return \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseConfigWebhookConfig|null
      */
     public function getWebhookConfig()
     {
@@ -336,7 +336,7 @@ class ApiV1DiffusionPost200ResponseConfig implements ModelInterface, ArrayAccess
     /**
      * Sets webhook_config
      *
-     * @param \Legnext\Model\ApiV1DiffusionPost200ResponseConfigWebhookConfig|null $webhook_config webhook_config
+     * @param \OpenAPI\Client\Model\ApiV1DiffusionPost200ResponseConfigWebhookConfig|null $webhook_config webhook_config
      *
      * @return self
      */

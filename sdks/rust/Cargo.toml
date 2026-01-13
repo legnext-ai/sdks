@@ -1,0 +1,21 @@
+[package]
+name = "openapi"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "# **Legnext.ai Midjourney API: The Ultimate AI Image Generation Toolkit**  Unlock the full creative potential of Midjourney directly within your applications and development workflows using the **Legnext.ai Midjourney API (Unofficial)**. This comprehensive collection offers a ready-to-integrate solution for professional image and video creation, manipulation, and high-fidelity upscaling.  We provide developers with **stable, high-performance API access** to the Midjourney model. Crucially, integrating our service requires **no Midjourney account**, eliminating the hassle of managing official subscriptions or Discord interactions. Our toolkit simplifies the entire text-to-image process, supporting complex prompts, aspect ratio adjustments, and advanced style parameters.  Focus on innovation while we handle the AI infrastructure. Start building scalable, visually stunning applications today with reliable access to the world’s leading generative AI model."
+# Override this license by providing a License Object in the OpenAPI.
+license = "Unlicense"
+edition = "2021"
+
+[dependencies]
+serde = { version = "^1.0", features = ["derive"] }
+serde_with = { version = "^3.8", default-features = false, features = ["base64", "std", "macros"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+url = "^2.5"
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
+
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls-tls = ["reqwest/rustls-tls"]

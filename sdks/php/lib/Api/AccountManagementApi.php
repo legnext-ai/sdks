@@ -4,7 +4,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -25,7 +25,7 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext\Api;
+namespace OpenAPI\Client\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -36,17 +36,17 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Legnext\ApiException;
-use Legnext\Configuration;
-use Legnext\FormDataProcessor;
-use Legnext\HeaderSelector;
-use Legnext\ObjectSerializer;
+use OpenAPI\Client\ApiException;
+use OpenAPI\Client\Configuration;
+use OpenAPI\Client\FormDataProcessor;
+use OpenAPI\Client\HeaderSelector;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * AccountManagementApi Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -133,13 +133,14 @@ class AccountManagementApi
      * @param  string|null $x_api_key x_api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiAccountBalanceGet'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\BalanceResponse
      */
     public function apiAccountBalanceGet($x_api_key = null, string $contentType = self::contentTypes['apiAccountBalanceGet'][0])
     {
-        $this->apiAccountBalanceGetWithHttpInfo($x_api_key, $contentType);
+        list($response) = $this->apiAccountBalanceGetWithHttpInfo($x_api_key, $contentType);
+        return $response;
     }
 
     /**
@@ -150,9 +151,9 @@ class AccountManagementApi
      * @param  string|null $x_api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiAccountBalanceGet'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\BalanceResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function apiAccountBalanceGetWithHttpInfo($x_api_key = null, string $contentType = self::contentTypes['apiAccountBalanceGet'][0])
     {
@@ -181,9 +182,45 @@ class AccountManagementApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\BalanceResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\BalanceResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\BalanceResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -225,14 +262,27 @@ class AccountManagementApi
      */
     public function apiAccountBalanceGetAsyncWithHttpInfo($x_api_key = null, string $contentType = self::contentTypes['apiAccountBalanceGet'][0])
     {
-        $returnType = '';
+        $returnType = '\OpenAPI\Client\Model\BalanceResponse';
         $request = $this->apiAccountBalanceGetRequest($x_api_key, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();

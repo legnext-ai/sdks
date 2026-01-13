@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -22,7 +21,10 @@ docs/ApiV1JobJobIdGet200ResponseMeta.md
 docs/ApiV1JobJobIdGet200ResponseOutput.md
 docs/ApiV1JobJobIdGet200ResponseOutputAvailableActions.md
 docs/ApiV1PanPost200Response.md
+docs/BalanceResponse.md
+docs/BalanceResponseData.md
 docs/ImageAPI.md
+docs/TaskResponse.md
 docs/VideoAPI.md
 git_push.sh
 go.mod
@@ -40,8 +42,8 @@ model__api_v1_job__job_id__get_200_response_meta.go
 model__api_v1_job__job_id__get_200_response_output.go
 model__api_v1_job__job_id__get_200_response_output_available_actions.go
 model__api_v1_pan_post_200_response.go
+model_balance_response.go
+model_balance_response_data.go
+model_task_response.go
 response.go
-test/api_account_management_test.go
-test/api_image_test.go
-test/api_video_test.go
 utils.go

@@ -1,4 +1,4 @@
-# Go API client for legnext
+# Go API client for openapi
 
 # **Legnext.ai Midjourney API: The Ultimate AI Image Generation Toolkit**
 
@@ -28,7 +28,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```go
-import legnext "github.com/legnext-ai/sdks/sdks/go"
+import openapi "github.com/GIT_USER_ID/GIT_REPO_ID"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -43,18 +43,18 @@ Default configuration comes with `Servers` field that contains server objects as
 
 ### Select Server Configuration
 
-For using other server than the one defined on index 0 set context value `legnext.ContextServerIndex` of type `int`.
+For using other server than the one defined on index 0 set context value `openapi.ContextServerIndex` of type `int`.
 
 ```go
-ctx := context.WithValue(context.Background(), legnext.ContextServerIndex, 1)
+ctx := context.WithValue(context.Background(), openapi.ContextServerIndex, 1)
 ```
 
 ### Templated Server URL
 
-Templated server URL is formatted using default variables from configuration or from context value `legnext.ContextServerVariables` of type `map[string]string`.
+Templated server URL is formatted using default variables from configuration or from context value `openapi.ContextServerVariables` of type `map[string]string`.
 
 ```go
-ctx := context.WithValue(context.Background(), legnext.ContextServerVariables, map[string]string{
+ctx := context.WithValue(context.Background(), openapi.ContextServerVariables, map[string]string{
 	"basePath": "v2",
 })
 ```
@@ -65,13 +65,13 @@ Note, enum values are always validated and all unused variables are silently ign
 
 Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
 An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
-Similar rules for overriding default operation server index and variables applies by using `legnext.ContextOperationServerIndices` and `legnext.ContextOperationServerVariables` context maps.
+Similar rules for overriding default operation server index and variables applies by using `openapi.ContextOperationServerIndices` and `openapi.ContextOperationServerVariables` context maps.
 
 ```go
-ctx := context.WithValue(context.Background(), legnext.ContextOperationServerIndices, map[string]int{
+ctx := context.WithValue(context.Background(), openapi.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
-ctx = context.WithValue(context.Background(), legnext.ContextOperationServerVariables, map[string]map[string]string{
+ctx = context.WithValue(context.Background(), openapi.ContextOperationServerVariables, map[string]map[string]string{
 	"{classname}Service.{nickname}": {
 		"port": "8443",
 	},
@@ -118,6 +118,9 @@ Class | Method | HTTP request | Description
  - [ApiV1JobJobIdGet200ResponseOutput](docs/ApiV1JobJobIdGet200ResponseOutput.md)
  - [ApiV1JobJobIdGet200ResponseOutputAvailableActions](docs/ApiV1JobJobIdGet200ResponseOutputAvailableActions.md)
  - [ApiV1PanPost200Response](docs/ApiV1PanPost200Response.md)
+ - [BalanceResponse](docs/BalanceResponse.md)
+ - [BalanceResponseData](docs/BalanceResponseData.md)
+ - [TaskResponse](docs/TaskResponse.md)
 
 
 ## Documentation For Authorization

@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## ApiAccountBalanceGet
 
-> ApiAccountBalanceGet(ctx).XApiKey(xApiKey).Execute()
+> BalanceResponse ApiAccountBalanceGet(ctx).XApiKey(xApiKey).Execute()
 
 get account balance
 
@@ -33,11 +33,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AccountManagementAPI.ApiAccountBalanceGet(context.Background()).XApiKey(xApiKey).Execute()
+	resp, r, err := apiClient.AccountManagementAPI.ApiAccountBalanceGet(context.Background()).XApiKey(xApiKey).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AccountManagementAPI.ApiAccountBalanceGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `ApiAccountBalanceGet`: BalanceResponse
+	fmt.Fprintf(os.Stdout, "Response from `AccountManagementAPI.ApiAccountBalanceGet`: %v\n", resp)
 }
 ```
 
@@ -56,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**BalanceResponse**](BalanceResponse.md)
 
 ### Authorization
 

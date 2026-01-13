@@ -1,4 +1,4 @@
-# Legnext\VideoApi
+# OpenAPI\Client\VideoApi
 
 Handles video generation, upscaling, and extension operations.
 
@@ -15,7 +15,7 @@ All URIs are relative to https://api.legnext.ai, except if the operation defines
 ## `apiV1ExtendVideoPost()`
 
 ```php
-apiV1ExtendVideoPost($x_api_key, $content_type, $body)
+apiV1ExtendVideoPost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Extend Video
@@ -30,17 +30,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\VideoApi(
+$apiInstance = new OpenAPI\Client\Api\VideoApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1ExtendVideoPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1ExtendVideoPost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling VideoApi->apiV1ExtendVideoPost: ', $e->getMessage(), PHP_EOL;
 }
@@ -51,12 +51,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -74,7 +73,7 @@ No authorization required
 ## `apiV1JobJobIdGet()`
 
 ```php
-apiV1JobJobIdGet($job_id, $x_api_key): \Legnext\Model\ApiV1JobJobIdGet200Response
+apiV1JobJobIdGet($job_id, $x_api_key): \OpenAPI\Client\Model\ApiV1JobJobIdGet200Response
 ```
 
 Get task response
@@ -89,7 +88,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\VideoApi(
+$apiInstance = new OpenAPI\Client\Api\VideoApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
@@ -114,7 +113,7 @@ try {
 
 ### Return type
 
-[**\Legnext\Model\ApiV1JobJobIdGet200Response**](../Model/ApiV1JobJobIdGet200Response.md)
+[**\OpenAPI\Client\Model\ApiV1JobJobIdGet200Response**](../Model/ApiV1JobJobIdGet200Response.md)
 
 ### Authorization
 
@@ -132,7 +131,7 @@ No authorization required
 ## `apiV1VideoDiffusionPost()`
 
 ```php
-apiV1VideoDiffusionPost($x_api_key, $content_type, $body)
+apiV1VideoDiffusionPost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Video Diffusion
@@ -147,17 +146,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\VideoApi(
+$apiInstance = new OpenAPI\Client\Api\VideoApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1VideoDiffusionPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1VideoDiffusionPost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling VideoApi->apiV1VideoDiffusionPost: ', $e->getMessage(), PHP_EOL;
 }
@@ -168,12 +167,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -191,7 +189,7 @@ No authorization required
 ## `apiV1VideoUpscalePost()`
 
 ```php
-apiV1VideoUpscalePost($x_api_key, $content_type, $body)
+apiV1VideoUpscalePost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Video Upscale
@@ -206,17 +204,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\VideoApi(
+$apiInstance = new OpenAPI\Client\Api\VideoApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1VideoUpscalePost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1VideoUpscalePost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling VideoApi->apiV1VideoUpscalePost: ', $e->getMessage(), PHP_EOL;
 }
@@ -227,12 +225,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 

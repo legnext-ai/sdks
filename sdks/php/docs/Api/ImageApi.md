@@ -1,4 +1,4 @@
-# Legnext\ImageApi
+# OpenAPI\Client\ImageApi
 
 Contains all image generation, manipulation, and transformation endpoints.
 
@@ -23,7 +23,7 @@ All URIs are relative to https://api.legnext.ai, except if the operation defines
 ## `apiV1BlendPost()`
 
 ```php
-apiV1BlendPost($x_api_key, $content_type, $body)
+apiV1BlendPost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Blend
@@ -38,17 +38,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = 'body_example'; // string
 
 try {
-    $apiInstance->apiV1BlendPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1BlendPost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1BlendPost: ', $e->getMessage(), PHP_EOL;
 }
@@ -59,12 +59,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **string**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -82,7 +81,7 @@ No authorization required
 ## `apiV1DescribePost()`
 
 ```php
-apiV1DescribePost($x_api_key, $body)
+apiV1DescribePost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Describe
@@ -97,7 +96,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
@@ -106,7 +105,8 @@ $x_api_key = {{x_api_key}}; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1DescribePost($x_api_key, $body);
+    $result = $apiInstance->apiV1DescribePost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1DescribePost: ', $e->getMessage(), PHP_EOL;
 }
@@ -121,7 +121,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -139,7 +139,7 @@ No authorization required
 ## `apiV1DiffusionPost()`
 
 ```php
-apiV1DiffusionPost($x_api_key, $content_type, $body): \Legnext\Model\ApiV1DiffusionPost200Response
+apiV1DiffusionPost($x_api_key, $body): \OpenAPI\Client\Model\ApiV1DiffusionPost200Response
 ```
 
 Diffusion
@@ -154,17 +154,16 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $result = $apiInstance->apiV1DiffusionPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1DiffusionPost($x_api_key, $body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1DiffusionPost: ', $e->getMessage(), PHP_EOL;
@@ -176,12 +175,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-[**\Legnext\Model\ApiV1DiffusionPost200Response**](../Model/ApiV1DiffusionPost200Response.md)
+[**\OpenAPI\Client\Model\ApiV1DiffusionPost200Response**](../Model/ApiV1DiffusionPost200Response.md)
 
 ### Authorization
 
@@ -199,7 +197,7 @@ No authorization required
 ## `apiV1EditPost()`
 
 ```php
-apiV1EditPost($x_api_key, $content_type, $body): \Legnext\Model\ApiV1EditPost200Response
+apiV1EditPost($x_api_key, $body): \OpenAPI\Client\Model\ApiV1EditPost200Response
 ```
 
 Edit
@@ -214,17 +212,16 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $result = $apiInstance->apiV1EditPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1EditPost($x_api_key, $body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1EditPost: ', $e->getMessage(), PHP_EOL;
@@ -236,12 +233,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-[**\Legnext\Model\ApiV1EditPost200Response**](../Model/ApiV1EditPost200Response.md)
+[**\OpenAPI\Client\Model\ApiV1EditPost200Response**](../Model/ApiV1EditPost200Response.md)
 
 ### Authorization
 
@@ -259,7 +255,7 @@ No authorization required
 ## `apiV1InpaintPost()`
 
 ```php
-apiV1InpaintPost($x_api_key, $content_type, $body)
+apiV1InpaintPost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Inpaint
@@ -274,17 +270,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1InpaintPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1InpaintPost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1InpaintPost: ', $e->getMessage(), PHP_EOL;
 }
@@ -295,12 +291,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -318,7 +313,7 @@ No authorization required
 ## `apiV1OutpaintPost()`
 
 ```php
-apiV1OutpaintPost($x_api_key, $content_type, $body)
+apiV1OutpaintPost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Outpaint
@@ -333,17 +328,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1OutpaintPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1OutpaintPost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1OutpaintPost: ', $e->getMessage(), PHP_EOL;
 }
@@ -354,12 +349,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -377,7 +371,7 @@ No authorization required
 ## `apiV1PanPost()`
 
 ```php
-apiV1PanPost($x_api_key, $content_type, $body): \Legnext\Model\ApiV1PanPost200Response
+apiV1PanPost($x_api_key, $body): \OpenAPI\Client\Model\ApiV1PanPost200Response
 ```
 
 Pan
@@ -392,17 +386,16 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $result = $apiInstance->apiV1PanPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1PanPost($x_api_key, $body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1PanPost: ', $e->getMessage(), PHP_EOL;
@@ -414,12 +407,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-[**\Legnext\Model\ApiV1PanPost200Response**](../Model/ApiV1PanPost200Response.md)
+[**\OpenAPI\Client\Model\ApiV1PanPost200Response**](../Model/ApiV1PanPost200Response.md)
 
 ### Authorization
 
@@ -437,7 +429,7 @@ No authorization required
 ## `apiV1RemixPost()`
 
 ```php
-apiV1RemixPost($x_api_key, $content_type, $body)
+apiV1RemixPost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Remix
@@ -452,17 +444,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1RemixPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1RemixPost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1RemixPost: ', $e->getMessage(), PHP_EOL;
 }
@@ -473,12 +465,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -496,7 +487,7 @@ No authorization required
 ## `apiV1RerollPost()`
 
 ```php
-apiV1RerollPost($x_api_key, $content_type, $body)
+apiV1RerollPost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Reroll
@@ -511,17 +502,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1RerollPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1RerollPost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1RerollPost: ', $e->getMessage(), PHP_EOL;
 }
@@ -532,12 +523,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -555,7 +545,7 @@ No authorization required
 ## `apiV1ShortenPost()`
 
 ```php
-apiV1ShortenPost($x_api_key, $body)
+apiV1ShortenPost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Shorten
@@ -570,7 +560,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
@@ -579,7 +569,8 @@ $x_api_key = {{x_api_key}}; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1ShortenPost($x_api_key, $body);
+    $result = $apiInstance->apiV1ShortenPost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1ShortenPost: ', $e->getMessage(), PHP_EOL;
 }
@@ -594,7 +585,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -612,7 +603,7 @@ No authorization required
 ## `apiV1UpscalePost()`
 
 ```php
-apiV1UpscalePost($x_api_key, $content_type, $body)
+apiV1UpscalePost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Upscale
@@ -627,17 +618,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1UpscalePost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1UpscalePost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1UpscalePost: ', $e->getMessage(), PHP_EOL;
 }
@@ -648,12 +639,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 
@@ -671,7 +661,7 @@ No authorization required
 ## `apiV1VariationPost()`
 
 ```php
-apiV1VariationPost($x_api_key, $content_type, $body)
+apiV1VariationPost($x_api_key, $body): \OpenAPI\Client\Model\TaskResponse
 ```
 
 Variation
@@ -686,17 +676,17 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\ImageApi(
+$apiInstance = new OpenAPI\Client\Api\ImageApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $x_api_key = {{x_api_key}}; // string
-$content_type = application/json; // string
 $body = array('key' => new \stdClass); // object
 
 try {
-    $apiInstance->apiV1VariationPost($x_api_key, $content_type, $body);
+    $result = $apiInstance->apiV1VariationPost($x_api_key, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ImageApi->apiV1VariationPost: ', $e->getMessage(), PHP_EOL;
 }
@@ -707,12 +697,11 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_api_key** | **string**|  | [optional] |
-| **content_type** | **string**|  | [optional] |
 | **body** | **object**|  | [optional] |
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\TaskResponse**](../Model/TaskResponse.md)
 
 ### Authorization
 

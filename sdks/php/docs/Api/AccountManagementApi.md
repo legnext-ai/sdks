@@ -1,4 +1,4 @@
-# Legnext\AccountManagementApi
+# OpenAPI\Client\AccountManagementApi
 
 
 
@@ -12,7 +12,7 @@ All URIs are relative to https://api.legnext.ai, except if the operation defines
 ## `apiAccountBalanceGet()`
 
 ```php
-apiAccountBalanceGet($x_api_key)
+apiAccountBalanceGet($x_api_key): \OpenAPI\Client\Model\BalanceResponse
 ```
 
 get account balance
@@ -27,7 +27,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new Legnext\Api\AccountManagementApi(
+$apiInstance = new OpenAPI\Client\Api\AccountManagementApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
@@ -35,7 +35,8 @@ $apiInstance = new Legnext\Api\AccountManagementApi(
 $x_api_key = 'x_api_key_example'; // string
 
 try {
-    $apiInstance->apiAccountBalanceGet($x_api_key);
+    $result = $apiInstance->apiAccountBalanceGet($x_api_key);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AccountManagementApi->apiAccountBalanceGet: ', $e->getMessage(), PHP_EOL;
 }
@@ -49,7 +50,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\BalanceResponse**](../Model/BalanceResponse.md)
 
 ### Authorization
 

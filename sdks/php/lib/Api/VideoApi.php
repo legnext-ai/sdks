@@ -4,7 +4,7 @@
  * PHP version 8.1
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -25,7 +25,7 @@
  * Do not edit the class manually.
  */
 
-namespace Legnext\Api;
+namespace OpenAPI\Client\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -36,17 +36,17 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Legnext\ApiException;
-use Legnext\Configuration;
-use Legnext\FormDataProcessor;
-use Legnext\HeaderSelector;
-use Legnext\ObjectSerializer;
+use OpenAPI\Client\ApiException;
+use OpenAPI\Client\Configuration;
+use OpenAPI\Client\FormDataProcessor;
+use OpenAPI\Client\HeaderSelector;
+use OpenAPI\Client\ObjectSerializer;
 
 /**
  * VideoApi Class Doc Comment
  *
  * @category Class
- * @package  Legnext
+ * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
@@ -140,17 +140,17 @@ class VideoApi
      * Extend Video
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1ExtendVideoPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1ExtendVideoPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
+    public function apiV1ExtendVideoPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
     {
-        $this->apiV1ExtendVideoPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1ExtendVideoPostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -159,17 +159,16 @@ class VideoApi
      * Extend Video
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1ExtendVideoPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1ExtendVideoPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
+    public function apiV1ExtendVideoPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
     {
-        $request = $this->apiV1ExtendVideoPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1ExtendVideoPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -194,9 +193,45 @@ class VideoApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -210,16 +245,15 @@ class VideoApi
      * Extend Video
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1ExtendVideoPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1ExtendVideoPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
+    public function apiV1ExtendVideoPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
     {
-        return $this->apiV1ExtendVideoPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1ExtendVideoPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -233,23 +267,35 @@ class VideoApi
      * Extend Video
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1ExtendVideoPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1ExtendVideoPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
+    public function apiV1ExtendVideoPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1ExtendVideoPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1ExtendVideoPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -272,16 +318,14 @@ class VideoApi
      * Create request for operation 'apiV1ExtendVideoPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1ExtendVideoPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1ExtendVideoPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
+    public function apiV1ExtendVideoPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1ExtendVideoPost'][0])
     {
-
 
 
 
@@ -297,10 +341,6 @@ class VideoApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -374,9 +414,9 @@ class VideoApi
      * @param  string|null $x_api_key x_api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1JobJobIdGet'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Legnext\Model\ApiV1JobJobIdGet200Response
+     * @return \OpenAPI\Client\Model\ApiV1JobJobIdGet200Response
      */
     public function apiV1JobJobIdGet($job_id, $x_api_key = null, string $contentType = self::contentTypes['apiV1JobJobIdGet'][0])
     {
@@ -393,9 +433,9 @@ class VideoApi
      * @param  string|null $x_api_key (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1JobJobIdGet'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Legnext\Model\ApiV1JobJobIdGet200Response, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\ApiV1JobJobIdGet200Response, HTTP status code, HTTP response headers (array of strings)
      */
     public function apiV1JobJobIdGetWithHttpInfo($job_id, $x_api_key = null, string $contentType = self::contentTypes['apiV1JobJobIdGet'][0])
     {
@@ -427,7 +467,7 @@ class VideoApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\Legnext\Model\ApiV1JobJobIdGet200Response',
+                        '\OpenAPI\Client\Model\ApiV1JobJobIdGet200Response',
                         $request,
                         $response,
                     );
@@ -449,7 +489,7 @@ class VideoApi
             }
 
             return $this->handleResponseWithDataType(
-                '\Legnext\Model\ApiV1JobJobIdGet200Response',
+                '\OpenAPI\Client\Model\ApiV1JobJobIdGet200Response',
                 $request,
                 $response,
             );
@@ -458,7 +498,7 @@ class VideoApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Legnext\Model\ApiV1JobJobIdGet200Response',
+                        '\OpenAPI\Client\Model\ApiV1JobJobIdGet200Response',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -506,7 +546,7 @@ class VideoApi
      */
     public function apiV1JobJobIdGetAsyncWithHttpInfo($job_id, $x_api_key = null, string $contentType = self::contentTypes['apiV1JobJobIdGet'][0])
     {
-        $returnType = '\Legnext\Model\ApiV1JobJobIdGet200Response';
+        $returnType = '\OpenAPI\Client\Model\ApiV1JobJobIdGet200Response';
         $request = $this->apiV1JobJobIdGetRequest($job_id, $x_api_key, $contentType);
 
         return $this->client
@@ -649,17 +689,17 @@ class VideoApi
      * Video Diffusion
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoDiffusionPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1VideoDiffusionPost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
+    public function apiV1VideoDiffusionPost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
     {
-        $this->apiV1VideoDiffusionPostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1VideoDiffusionPostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -668,17 +708,16 @@ class VideoApi
      * Video Diffusion
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoDiffusionPost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1VideoDiffusionPostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
+    public function apiV1VideoDiffusionPostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
     {
-        $request = $this->apiV1VideoDiffusionPostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1VideoDiffusionPostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -703,9 +742,45 @@ class VideoApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -719,16 +794,15 @@ class VideoApi
      * Video Diffusion
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoDiffusionPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1VideoDiffusionPostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
+    public function apiV1VideoDiffusionPostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
     {
-        return $this->apiV1VideoDiffusionPostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1VideoDiffusionPostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -742,23 +816,35 @@ class VideoApi
      * Video Diffusion
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoDiffusionPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1VideoDiffusionPostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
+    public function apiV1VideoDiffusionPostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1VideoDiffusionPostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1VideoDiffusionPostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -781,16 +867,14 @@ class VideoApi
      * Create request for operation 'apiV1VideoDiffusionPost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoDiffusionPost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1VideoDiffusionPostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
+    public function apiV1VideoDiffusionPostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoDiffusionPost'][0])
     {
-
 
 
 
@@ -806,10 +890,6 @@ class VideoApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
@@ -880,17 +960,17 @@ class VideoApi
      * Video Upscale
      *
      * @param  string|null $x_api_key x_api_key (optional)
-     * @param  string|null $content_type content_type (optional)
      * @param  object|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoUpscalePost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \OpenAPI\Client\Model\TaskResponse
      */
-    public function apiV1VideoUpscalePost($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
+    public function apiV1VideoUpscalePost($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
     {
-        $this->apiV1VideoUpscalePostWithHttpInfo($x_api_key, $content_type, $body, $contentType);
+        list($response) = $this->apiV1VideoUpscalePostWithHttpInfo($x_api_key, $body, $contentType);
+        return $response;
     }
 
     /**
@@ -899,17 +979,16 @@ class VideoApi
      * Video Upscale
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoUpscalePost'] to see the possible values for this operation
      *
-     * @throws \Legnext\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \OpenAPI\Client\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \OpenAPI\Client\Model\TaskResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function apiV1VideoUpscalePostWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
+    public function apiV1VideoUpscalePostWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
     {
-        $request = $this->apiV1VideoUpscalePostRequest($x_api_key, $content_type, $body, $contentType);
+        $request = $this->apiV1VideoUpscalePostRequest($x_api_key, $body, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -934,9 +1013,45 @@ class VideoApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\TaskResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\TaskResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -950,16 +1065,15 @@ class VideoApi
      * Video Upscale
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoUpscalePost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1VideoUpscalePostAsync($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
+    public function apiV1VideoUpscalePostAsync($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
     {
-        return $this->apiV1VideoUpscalePostAsyncWithHttpInfo($x_api_key, $content_type, $body, $contentType)
+        return $this->apiV1VideoUpscalePostAsyncWithHttpInfo($x_api_key, $body, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -973,23 +1087,35 @@ class VideoApi
      * Video Upscale
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoUpscalePost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function apiV1VideoUpscalePostAsyncWithHttpInfo($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
+    public function apiV1VideoUpscalePostAsyncWithHttpInfo($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
     {
-        $returnType = '';
-        $request = $this->apiV1VideoUpscalePostRequest($x_api_key, $content_type, $body, $contentType);
+        $returnType = '\OpenAPI\Client\Model\TaskResponse';
+        $request = $this->apiV1VideoUpscalePostRequest($x_api_key, $body, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1012,16 +1138,14 @@ class VideoApi
      * Create request for operation 'apiV1VideoUpscalePost'
      *
      * @param  string|null $x_api_key (optional)
-     * @param  string|null $content_type (optional)
      * @param  object|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['apiV1VideoUpscalePost'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function apiV1VideoUpscalePostRequest($x_api_key = null, $content_type = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
+    public function apiV1VideoUpscalePostRequest($x_api_key = null, $body = null, string $contentType = self::contentTypes['apiV1VideoUpscalePost'][0])
     {
-
 
 
 
@@ -1037,10 +1161,6 @@ class VideoApi
         // header params
         if ($x_api_key !== null) {
             $headerParams['x-api-key'] = ObjectSerializer::toHeaderValue($x_api_key);
-        }
-        // header params
-        if ($content_type !== null) {
-            $headerParams['Content-Type'] = ObjectSerializer::toHeaderValue($content_type);
         }
 
 
