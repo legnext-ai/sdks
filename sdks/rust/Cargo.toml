@@ -1,11 +1,16 @@
 [package]
-name = "openapi"
+name = "legnext-rust-sdk"
 version = "1.0.0"
-authors = ["OpenAPI Generator team and contributors"]
-description = "# **Legnext.ai Midjourney API: The Ultimate AI Image Generation Toolkit**  Unlock the full creative potential of Midjourney directly within your applications and development workflows using the **Legnext.ai Midjourney API (Unofficial)**. This comprehensive collection offers a ready-to-integrate solution for professional image and video creation, manipulation, and high-fidelity upscaling.  We provide developers with **stable, high-performance API access** to the Midjourney model. Crucially, integrating our service requires **no Midjourney account**, eliminating the hassle of managing official subscriptions or Discord interactions. Our toolkit simplifies the entire text-to-image process, supporting complex prompts, aspect ratio adjustments, and advanced style parameters.  Focus on innovation while we handle the AI infrastructure. Start building scalable, visually stunning applications today with reliable access to the world’s leading generative AI model."
-# Override this license by providing a License Object in the OpenAPI.
-license = "Unlicense"
+authors = ["Legnext AI <support@legnext.ai>"]
+description = "Official Rust client for the Legnext.ai Midjourney API. Generate images, videos, and more with AI."
+license = "MIT"
 edition = "2021"
+homepage = "https://legnext.ai"
+repository = "https://github.com/legnext-ai/sdks"
+documentation = "https://github.com/legnext-ai/sdks/tree/master/sdks/rust"
+keywords = ["legnext", "midjourney", "ai", "image-generation", "api"]
+categories = ["api-bindings"]
+readme = "README.md"
 
 [dependencies]
 serde = { version = "^1.0", features = ["derive"] }
