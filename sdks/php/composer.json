@@ -1,6 +1,6 @@
 {
     "name": "legnext-api/php-sdk",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Legnext.ai Midjourney API PHP SDK - Official PHP client for the Legnext.ai Midjourney API. Generate images, videos, and more with AI.",
     "keywords": [
         "legnext",
