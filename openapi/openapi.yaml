@@ -303,7 +303,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/reroll:
     post:
       tags:
@@ -387,7 +391,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/variation:
     post:
       tags:
@@ -485,7 +493,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/inpaint:
     post:
       tags:
@@ -599,7 +611,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/outpaint:
     post:
       tags:
@@ -696,7 +712,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/pan:
     post:
       tags:
@@ -948,7 +968,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/edit:
     post:
       tags:
@@ -1208,7 +1232,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/describe:
     post:
       tags:
@@ -1296,7 +1324,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/blend:
     post:
       tags:
@@ -1389,7 +1421,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/job/{job_id}:
     get:
       tags:
@@ -1727,7 +1763,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/extend-video:
     post:
       tags:
@@ -1820,7 +1860,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/v1/video-upscale:
     post:
       tags:
@@ -1909,7 +1953,11 @@ paths:
         '200':
           description: Successful response
           content:
-            application/json: {}
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TaskResponse'
   /api/account/balance:
     get:
       tags:
@@ -1999,6 +2047,118 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful response
+          description: Balance retrieved successfully
           content:
-            application/json: {}
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+
+components:
+  schemas:
+    BalanceResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Response status code
+          example: 200
+        message:
+          type: string
+          description: Response message
+          example: success
+        data:
+          $ref: '#/components/schemas/BalanceResponseData'
+
+    BalanceResponseData:
+      type: object
+      properties:
+        account_id:
+          type: integer
+          description: Account identifier
+          example: 52
+        balance_usd:
+          type: number
+          format: float
+          description: Current balance in USD
+          example: 4.068
+        available_credits:
+          type: integer
+          description: Available credits for API usage
+          example: 3000
+        available_points:
+          type: integer
+          description: Available points
+          example: 1068
+        alert_threshold:
+          type: integer
+          description: Low balance alert threshold in USD
+          example: 10
+        low_balance_alert:
+          type: boolean
+          description: Whether low balance alert is triggered
+          example: false
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: "2026-01-13T10:33:56.473007403Z"
+
+    TaskResponse:
+      type: object
+      description: Standard async task response for image/video generation operations
+      properties:
+        job_id:
+          type: string
+          description: Unique identifier for the created job
+          example: "7dea6cc5-5952-4f82-a906-1ed2328bc1c5"
+        model:
+          type: string
+          description: AI model used
+          example: "midjourney"
+        task_type:
+          type: string
+          description: Type of task
+          example: "diffusion"
+        status:
+          type: string
+          description: Initial status (typically 'pending')
+          example: "pending"
+        config:
+          type: object
+          properties:
+            service_mode:
+              type: string
+            webhook_config:
+              type: object
+              properties:
+                endpoint:
+                  type: string
+                secret:
+                  type: string
+        output:
+          type: object
+          properties:
+            image_url:
+              type: string
+            image_urls:
+              type: array
+              items:
+                type: string
+              nullable: true
+            seed:
+              type: string
+        meta:
+          type: object
+          properties:
+            created_at:
+              type: string
+              format: date-time
+            usage:
+              type: object
+              properties:
+                type:
+                  type: string
+                frozen:
+                  type: integer
+                consume:
+                  type: integer
